@@ -1,0 +1,71 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block css %}
+<style>
+    #boton{
+        background-color: #18265A;
+        color: #F3AE00;
+    }
+    #boton:hover{
+        background-color: #F3AE00;
+        color: #18265A;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+
+<div class="row">
+    <div class="card-body">
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item">
+                    <a href="{% url 'users_app:index' %}" class="azul">Inicio</a>
+                </li>
+                <li class="breadcrumb-item azul" aria-current="page">
+                    Registrarse
+                </li>
+            </ol>
+        </nav>
+    </div>
+</div>
+
+<h1 class="text-center azul">Formulario registro de usuario</h1>
+
+<form action="" method="post" class="col-5 mx-auto azul p-3 shadow rounded-lg">
+    {% csrf_token %}
+
+    <section class="mb-3">
+        <label for="id_email">Email:</label>
+        <input type="email" name="email" id="id_email" required class="form-control">
+    </section>
+
+    <section class="mb-3">
+        <label for="id_nombre">Nombre:</label>
+        <input type="text" name="nombre" maxlength="30" id="id_nombre" required class="form-control">
+    </section>
+    
+    <section class="mb-3">
+        <label for="id_apellido">Apellido:</label>
+        <input type="text" name="apellido" maxlength="30" id="id_apellido" required class="form-control">
+    </section>
+    
+    <section class="mb-3">
+        <label for="id_password_1">Contraseña:</label>
+        <input type="password" name="password_1" id="id_password_1" required class="form-control">
+    </section>
+
+    <section class="mb-3">
+        <label for="id_password_2">Repetir contraseña:</label>
+        <input type="password" name="password_2" id="id_password_2" required class="form-control">
+    </section>
+        
+    <section class="form-group">
+        <button type="submit" class="btn" id="boton">
+            <i class="fas fa-save"></i>&nbsp;&nbsp;Registrarse
+        </button>
+    </section>
+</form>
+{% endblock %}

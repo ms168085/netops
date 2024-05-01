@@ -1,0 +1,76 @@
+{% extends 'base.html'%}
+{% load static %}
+
+{% block css%}
+    <style>
+        #recuperarPass:hover{
+            color: #F3AE00;
+            text-decoration: none;
+        }
+    </style>
+{% endblock %}
+
+{% block content %}
+    <div class="container-fluid mt-5">   
+        <div class="row">
+            <div class="card bg-azul m-auto naranja">            
+                <div class="card-body">
+                    <h2 class="naranja">&nbsp;Ingresar credenciales&nbsp;</h2>
+                    <hr class="bg-naranja">
+                                    
+                    <form method="POST">
+                        {% csrf_token %}
+
+                        {% if form.non_field_errors %}
+                            <p class="alert alert-danger text-center">
+                                <!--  errores no relacionados con un campo específico -->
+                                {% for error in form.non_field_errors %}
+                                    {{ error }}
+                                {% endfor %}
+                            </p>
+                        {% endif %}                   
+                        
+                        <div class="form-group">
+                            <label>Email:</label>
+                            <input type="text" name="email" class="form-control" id="id_email">
+                        </div>
+
+                        <div class="form-group mb-3">
+                            <label>Contrase&ntilde;a:</label>
+                            <input type="password" name="password" class="form-control" id="id_password">
+                        </div>
+                        <small>
+                            <a id="recuperarPass" href="#" class="naranja mb-3">¿Olvido su contraseña?</a>
+                        </small>
+
+                        <button type="submit" class="btn btn-outline-info float-right">
+                            <i class="fas fa-sign-in-alt"></i>&nbsp;Ingresar
+                        </button>
+                    </form>                
+                </div>            
+            </div>            
+        </div>
+        <section class="col-8 mx-auto mt-5" id="ubicacion"></section>
+    </div>
+{% endblock %}
+
+{% block js%}
+<script>
+    const btn = document.querySelector("#recuperarPass");
+    let ubicacion = document.querySelector("#ubicacion");
+    btn.addEventListener("click", informar);
+    function informar(){
+        const errores = document.querySelector(".err");
+
+        if(!errores){
+            let msg = document.createElement("p");
+            msg.innerHTML = `Contactar a Operaciones de red: <span class='font-weight-bold'>operacionesderedcelular@antel.com.uy</span>`;
+            msg.classList.add("alert","alert-primary","text-center", "err");
+            ubicacion.appendChild(msg);
+            setTimeout(() => {
+                msg.remove();
+            }, 7000);
+        }        
+    }
+</script>
+{% endblock %}
