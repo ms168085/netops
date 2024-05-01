@@ -1,0 +1,37 @@
+@font-face {
+    font-family: "Ubuntu";
+    src: url("../assets/UbuntuCondensed-Regular.ttf") format("truetype");
+}
+
+*{
+    font-family: 'Ubuntu', sans-serif;
+}
+
+.bg-azul{
+    background-color: #18265A;
+}
+.bg-naranja{
+    background-color: #F3AE00;
+}
+.azul{
+    color: #18265A;
+}
+.naranja{
+    color: #F3AE00;
+}
+
+@media screen and (max-width: 575px) {
+    .reducir{
+        /*display:none;*/
+        max-width: 20%;
+    }
+}
+
+li a:hover{
+    color: #F3AE00 !important;
+    text-decoration: none;
+}
+
+#main-footer{
+    margin-top: 50px !important;
+}

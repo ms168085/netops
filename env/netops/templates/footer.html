@@ -1,0 +1,20 @@
+<!-- Footer -->
+<footer id="main-footer" class="bg-azul naranja p-5">
+    <div class="container">
+        <div class="row">
+            <div class="col">
+                <p class="lead text-center" id="pie-pagina">
+                    <img src="{% static 'img/logo_largo.png' %}" class="img-fluid rounded mb-2" style="width: 10%; border: solid 1px #F3AE02;"><br>
+                    Desarrollado por Mat&iacute;as Santos - Proyecto ORT.<br>
+                    <script>
+                        let fecha = new Date();
+                        let e = document.createElement("p");
+                        e.innerHTML = `${fecha.getFullYear()} - Todos los Derechos Reservados &copy;.`;
+                        document.querySelector("#pie-pagina").appendChild(e);
+                    </script>
+                </p>
+            </div>
+        </div>
+    </div>
+</footer>
+<!-- FIN Footer -->

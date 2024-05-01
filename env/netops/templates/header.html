@@ -1,0 +1,28 @@
+<!-- Barra NAV Superior-->
+<nav class="bg-azul">
+    <a href="{% url 'core:home' %}" class="azul"><img src="{% static 'img/logo_nav.png' %}" class="ml-3 reducir"></a>
+    <div class="float-right mt-5">
+        <ul class="navbar-nav ml-auto">
+            {% if user.is_authenticated %}
+            <li class="nav-item dropdown mr-3" >
+                <a href="#" class="nav-link dropdown-toggle naranja" data-toggle="dropdown">
+                    <i class="fa fa-user naranja"></i>&nbsp;
+                    @{{ user.first_name }} {{ user.last_name}}
+                </a>
+                <div class="dropdown-menu">
+                    <a href="{% url 'logout' %}" class="dropdown-item">
+                        <i class="fa fa-user-times"></i>&nbsp;&nbsp;Salir
+                    </a>
+                </div>
+            </li>
+            {% else %}
+            <li class="nav-item">
+                <a href="{% url 'login' %}" class="naranja mr-5">
+                    <i class="fa fa-user naranja"></i>&nbsp;&nbsp;Login                            
+                </a>
+            </li>
+            {% endif %}
+        </ul>
+    </div>
+</nav>
+<!-- FIN Barra NAV Superior-->

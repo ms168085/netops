@@ -1,0 +1,64 @@
+{% extends 'core/base.html'%}
+{% load static %}
+
+{% block css%}
+<style>
+    #recuperarPass:hover{
+        background-color: #F3AE02;
+        color: #18265A;
+        padding: 5px;
+        text-decoration: none;
+        border-radius: 5px;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+
+<div class="container-fluid">   
+    <div class="row">
+        <div class="card bg-azul m-auto naranja animate__animated animate__backInLeft">            
+            <div class="card-body">
+                <h2 class="naranja">&nbsp;Ingresar credenciales&nbsp;</h2>
+                <hr class="bg-naranja">
+                                
+                <form action="" method="POST">
+                    {% csrf_token %}
+
+                    {% if form.non_field_errors %}
+                        <p class="alert alert-danger">
+                            Usuario o contrase&ntilde;a incorrecta.
+                        </p>
+                    {% endif %}
+                    
+                    
+                    <div class="form-group">
+                        <label>Usuario</label>
+                        <input type="text" name="username" class="form-control" id="id_username" placeholder="opred">
+                    </div>
+
+                    <div class="form-group">
+                        <label>Contrase&ntilde;a</label>
+                        <input type="password" name="password" class="form-control" id="id_password" placeholder="antel123">
+                    </div>
+                    <!--
+                    <small>
+                        <a id="recuperarPass" href="{% url 'password_reset' %}" class="naranja">Recuperar contrase&ntilde;a</a>
+                    </small>
+                    <br>
+                    -->
+                    <button type="submit" class="btn btn-outline-info float-right">
+                        <i class="fas fa-sign-in-alt"></i>&nbsp;Ingresar
+                    </button>
+                </form>                
+            </div>            
+        </div>
+        <p class="alert alert-primary text-justify mt-3 animate__animated animate__fadeInRight">
+            Este sistema posee información de estado y datos personales, solo puede ser utilizado en ámbitos de trabajo internos de Antel
+            (Art. 27 del Estatuto del Funcionario, Arts. 21 y 22 numeral 5 de la Ley Nro. 17.060 y Arts. 9 y 12 literal e del Decreto No. 30/003).
+            La contravención a la normativa citada será pasible de sanción.
+        </p>
+    </div>
+</div>
+<br>
+{% endblock %}

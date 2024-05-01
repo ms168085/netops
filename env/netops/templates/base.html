@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="es">
+    <head>
+        {% load static %}
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <link rel="shortcut icon" href="#" rel="noopener noreferrer">
+        <!-- Animate CSS-->
+        <link rel="stylesheet" href="{% static 'css/animate.css' %}">
+        <!-- Bootstrap 4.6 -->
+        <link rel="stylesheet" href="{% static 'css/bootstrap/bootstrap.min.css' %}">
+        <!-- FontAwesome-->
+        <link rel="stylesheet" href="{% static 'css/fontawesome.min.css' %}">
+        <!-- Sweetalert 2 -->
+        <link rel="stylesheet" href="{% static 'css/sweetalert_dark.css' %}">
+        <!-- Estilo Base -->
+        <link rel="stylesheet" href="{% static 'css/base.css' %}">
+        {% block css%}    
+        {% endblock %}
+        {% block jsHead %}
+        {% endblock %}
+        <title>PROYECTO ORT</title>
+    </head>
+    <body>
+        {% include 'header.html' %}
+        
+        <div class="container-fluid mt-5">
+            <div class="row">
+                <!-- Menu lado izquierdo -->
+                <!-- Menu lateral de 3 columnas-->
+                <div class="col-sm-12 col-md-3">
+                    {% if user.is_authenticated %}
+                        <div class="card">
+                            <div class="card-header bg-azul naranja">
+                                <h4><i class="fa fa-align-justify"></i>&nbsp;&nbsp;VPNs</h4>
+                            </div>                        
+                            <div class="card-body">
+                                <ul class="list-group">
+                                    <li class="list-group-item list-group-item-secondary d-flex justify-content-between align-items-center">
+                                        <a href="#" class="azul">Registrar VPN</a>
+                                    </li>                                    
+                                    <li class="list-group-item list-group-item-secondary d-flex justify-content-between align-items-center">
+                                        <a href="#" id="buscar" class="azul">Buscar VPN por APNid</a>
+                                    </li>
+                                    <li class="list-group-item list-group-item-secondary d-flex justify-content-between align-items-center">
+                                        <a href="#" id="buscarAPN2" class="azul">Buscar VPN por APN</a>
+                                    </li>
+                                    <li class="list-group-item list-group-item-secondary d-flex justify-content-between align-items-center">
+                                        <a href="#" class="azul">Listado de VPNs</a>
+                                    </li>                                                                    
+                                </ul>
+                            </div>                        
+                        </div>                    
+
+                        <div class="card mt-3">
+                            <div class="card-header bg-azul naranja">
+                                <h4><i class="fa fa-align-justify"></i>&nbsp;&nbsp;Tareas</h4>
+                            </div>                        
+                            <div class="card-body">
+                                <ul class="list-group">
+                                    <li class="list-group-item list-group-item-secondary d-flex justify-content-between align-items-center">
+                                        <a href="#" class="azul">Registrar Tarea</a>
+                                    </li>
+                                    <li class="list-group-item list-group-item-secondary d-flex justify-content-between align-items-center">
+                                        <a href="#" class="azul">Lista de Tareas</a>
+                                    </li>
+                                </ul>
+                            </div>                        
+                        </div>                        
+                    {% endif %}                    
+                </div>
+                <!-- FIN Menu lado izquierdo -->
+
+                <!-- Contenido del lado derecho -->
+                <div class="col-sm-12 col-md-9">
+                    {% block content%}
+                    {% endblock %}                
+                </div>
+                <!-- FIN Contenido del lado derecho -->
+            </div>
+        </div>       
+        
+        {% include 'footer.html' %}
+
+        <!-- Jquery 3.6 -->
+        <script src="{% static 'js/jquery-3.6.0.min.js' %}"></script>
+        <!-- Popper JS -->
+        <script src="{% static 'js/popper.min.js' %}"></script>
+        <!-- Bootstrap JS -->
+        <script src="{% static 'js/bootstrap/bootstrap.min.js' %}"></script>
+        <!-- SweetAlert 2 JS -->
+        <script src="{% static 'js/sweetalert2.min.js' %}"></script>        
+
+        {% block js%}
+        {% endblock %}
+
+        {% if messages %}
+            {% for m in messages %}
+                <script>
+                    var html = "<span style='font-size: 2rem;'>{{m}}</span>";
+                    Swal.fire({
+                        "title":"<span style='color:orange;'>Atención!</span>",
+                        "html":html,
+                        "icon":"success"
+                    })
+                </script>
+            {% endfor %}
+        {% endif %}
+
+        <script>
+            //Buscar una VPN ingresando el APN ID                 
+            $("#buscar").click(function(){ 
+                Swal.fire({
+                    title: '<span class="naranja">Buscar VPN</span>',
+                    input: 'text',
+                    inputAttributes: {
+                    autocapitalize: 'off',
+                    placeholder: "Ingresar APN ID",
+                    id: 'id_buscar'
+                    },
+                    showCancelButton: true,
+                    "cancelButtonText":"<span style='font-size: medium;'>Cancelar</span>",
+                    confirmButtonText: '<span style="font-size: medium;"><i class="fas fa-search"></i> Buscar</span>',
+                    showLoaderOnConfirm: true,
+                }).then(function(result){
+                    if(result.isConfirmed){                    
+                        var id = $('#id_buscar').val();                    
+                        if(isNaN(id) || id === "" || id === " "){
+                            Swal.fire('<span style="color:orange;">El APN ID debe ser un número válido.</span>');
+                        }
+                        else{
+                            window.location.href = "/buscar/"+id+"/";
+                        }
+                    }
+                });
+            }); 
+            //Buscar una VPN ingresando el APN               
+            $("#buscarAPN2").click(function(){ 
+                Swal.fire({
+                    title: '<span class="naranja">Buscar VPN</span>',
+                    input: 'text',
+                    inputAttributes: {
+                    autocapitalize: 'off',
+                    placeholder: "ejemplo.vpnantel",
+                    id: 'id_buscar'
+                    },
+                    showCancelButton: true,
+                    "cancelButtonText":"<span style='font-size: medium;'>Cancelar</span>",
+                    confirmButtonText: '<span style="font-size: medium;"><i class="fas fa-search"></i> Buscar</span>',
+                    showLoaderOnConfirm: true,
+                }).then(function(result){
+                    if(result.isConfirmed){                    
+                        var texto = $('#id_buscar').val();                    
+                        if(texto == "" || texto == " "){
+                            Swal.fire('<span style="color:orange;">El APN no puede estar vacío.</span>');
+                        }
+                        else{
+                            window.location.href = `/buscarAPN2/${texto}`;
+                        }
+                    }
+                });
+            });       
+        </script>
+    </body>
+</html>
