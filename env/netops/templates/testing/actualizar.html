@@ -1,0 +1,51 @@
+{% extends 'base.html'%}
+{% load static %}
+
+{% block css%}
+<style>
+    textarea{
+        resize: none;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="card-body">
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item">
+                    <a href="{% url 'users_app:index' %}" class="azul">Inicio</a>
+                </li>
+                <li class="breadcrumb-item azul" aria-current="page">
+                    Validación del cliente
+                </li>
+            </ol>
+        </nav>
+    </div>
+</div>
+
+<div class="container shadow rounded pt-3 pb-3">
+    <h1 class="text-center azul">
+        Validar la funcionalidad
+    </h1>    
+
+    {% if object.usuario %}
+        <p class="alert alert-danger text-center text-uppercase mt-5 col-6 mx-auto">La funcionalidad ya fue validada, gracias.</p>
+    {% else %}
+    <form method="POST" class="mx-auto p-3 ">
+        {% csrf_token %}
+        <p class="alert alert-primary p-3 text-center">{{object.funcionalidad}}</p>
+        <section class="mb-3">
+            <label for="id_comentario">Comentarios:</label>
+            <textarea class="form-control" cols="30" rows="10" id="id_comentario" name="comentario"></textarea>
+        </section>
+        <section class="mb-3">
+            <button type="submit" class="btn btn-primary">
+                <i class="far fa-check-circle"></i>&nbsp;&nbsp;VALIDAR
+            </button>
+        </section>
+    </form>
+    {% endif %}
+</div>
+{% endblock %}

@@ -1,0 +1,79 @@
+{% extends 'base.html'%}
+{% load static %}
+
+{% block css%}
+<style>
+    .spacing{
+        letter-spacing: 1px;
+        font-weight: lighter;
+        font-size: small;
+    }
+    .spacing:hover{
+        background-color: #F3AE00;
+        color: #18265A;
+        font-weight: bold;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="card-body">
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item">
+                    <a href="{% url 'users_app:index' %}" class="azul">Inicio</a>
+                </li>
+                <li class="breadcrumb-item azul" aria-current="page">
+                    Funcionalidades desarrolladas
+                </li>
+            </ol>
+        </nav>
+    </div>
+</div>
+
+<div class="container shadow rounded pt-3 pb-3">
+    <h1 class="text-center azul">Listado de funcionalidades</h1>
+    {% if funcionalidades %}    
+    
+    <section>
+        <table class="table">
+            <thead class="text-center bg-azul naranja">
+                <tr>
+                    <td>Funcionalidad</td>
+                    <td>Comentario</td>
+                    <td>Validada por:</td>
+                </tr>
+            </thead>
+            <tbody class="text-center">
+                {% for f in funcionalidades%}
+                    <tr>
+                        <td>{{ f.funcionalidad }}</td>
+                        <td>
+                            {% if f.comentario %}
+                                {{ f.comentario }}
+                            {% else %}
+                                ---
+                            {% endif %}
+                        </td>
+                        <td>
+                            {% if f.usuario %}
+                                {{ f.usuario.get_full_name }}
+                            {% else %}
+                                <a href="{% url 'testing_app:actualizar_testing' f.id %}">
+                                    <span class="badge bg-azul naranja p-2 spacing">¿&nbsp;VALIDAR&nbsp;?</span>
+                                </a>
+                            {% endif %}
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </section>
+    {% else %}
+        <p class="alert alert-primary text-center col-6 mx-auto mt-5">No hay funcionalidades desarrolladas hasta el momento.</p>
+    {% endif %}
+</div>
+
+    {% include 'paginator.html' %}
+{% endblock %}

@@ -35,6 +35,7 @@ DJANGO_APPS = (
 # Mis Aplicaciones
 LOCAL_APPS = (
     'applications.users',
+    'applications.testing',
 )
 
 # Aplicaciones de Terceros
@@ -92,6 +93,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 # Indico que el proyecto trabaja bajo mi modelo de Usuario
 AUTH_USER_MODEL = 'users.User'
+LOGIN_URL = '/login/'
 
 # Internationalization
 # https://docs.djangoproject.com/en/5.0/topics/i18n/
