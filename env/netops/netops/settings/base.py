@@ -36,6 +36,7 @@ DJANGO_APPS = (
 LOCAL_APPS = (
     'applications.users',
     'applications.testing',
+    'applications.vpn',
 )
 
 # Aplicaciones de Terceros
