@@ -3,7 +3,9 @@ from . import views
 
 app_name = 'vpn_app'
 
-urlpatterns = []
+urlpatterns = [
+    path('registrar_vpn/', views.RegistrarVPN.as_view(), name="registrar_vpn"),
+]
 
 """
 urlpatterns = [
