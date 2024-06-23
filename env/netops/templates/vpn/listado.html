@@ -1,0 +1,67 @@
+{% extends 'base.html'%}
+
+{% load static %}
+
+{% block css%}
+<style>
+    .spacing{
+        letter-spacing: 1px;
+        font-weight: lighter;
+        font-size: small;
+    }
+    .spacing:hover{
+        background-color: #F3AE00;
+        color: #18265A;
+        font-weight: bold;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="card-body">
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item">
+                    <a href="{% url 'users_app:index' %}" class="azul">Inicio</a>
+                </li>
+                <li class="breadcrumb-item azul" aria-current="page">
+                    Lista de VPNs
+                </li>
+            </ol>
+        </nav>
+    </div>
+</div>
+
+<div class="container-fluid shadow rounded pt-3 pb-3">
+    <h1 class="text-center azul">VPN Registradas</h1>
+    {% if vpns %}    
+    
+    <section class="mt-3">
+        <table class="table">
+            <thead class="text-center bg-azul naranja">
+                <tr>
+                    <td>APN ID</td>
+                    <td>APN</td>
+                    <td>Scripts</td>
+                    <td>Editar</td>
+                </tr>
+            </thead>
+            <tbody class="text-center">
+                {% for v in vpns %}
+                    <tr>
+                        <td>{{ v.apn_id }}</td>
+                        <td>{{ v.apn }}</td>
+                        <td>Pendiente</td>
+                        <td>Pendiente</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </section>
+    {% else %}
+        <p class="alert alert-primary text-center col-6 mx-auto mt-5">No hay VPN registradas hasta el momento.</p>
+    {% endif %}
+</div>
+    {% include 'paginator.html' %}
+{% endblock %}
