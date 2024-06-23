@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block content %}
+<div class="row">
+    <div class="card-body">
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item">
+                    <a href="{% url 'users_app:index' %}" class="azul">Inicio</a>
+                </li>
+                <li class="breadcrumb-item azul" aria-current="page">
+                    Buscar
+                </li>
+            </ol>
+        </nav>
+    </div>
+</div>
+
+<section class="row no-gutters">
+    <section class="col-sm-10 mx-auto">
+        <section class="card-body bg-azul naranja rounded">
+            <h4 class="text-center mt-3 mb-5">Resultado de la búsqueda:</h4>
+            <p>Registrada por: {{ vpn.usuario }}</p>
+            <p>VPN Instance: {% if vpn.vpn_instance %}{{ vpn.vpn_instance }}{%else%} - - -{% endif %}</p>
+            <p>Conectividad entre móviles: {% if vpn.conectividad_entre_moviles == "1" %}Full Mesh{%else%}Hub & Spoke{% endif %}</p>
+            <p>Nombre Pool de móviles: {{ vpn.nombre_pool_moviles}}</p>
+            <p>Roaming: {% if vpn.roaming %}SÍ{% else %}NO{% endif %}</p>
+            <p>APN: {{ vpn.apn }}</p>
+            <p>APN ID: {{ vpn.apn_id }}</p>
+            <p>Nombre de la empresa: {{ vpn.empresa }}</p>
+            <p>IP Router de la empresa: {{ vpn.ip_router }}</p>
+            <p>Contacto de la empresa: {{ vpn.contacto }}</p>
+            <p>Registrada en fecha: {{ vpn.created }}</p>
+        </section>
+    </section>
+</section>
+{% endblock %}

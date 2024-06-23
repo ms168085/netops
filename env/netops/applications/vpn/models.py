@@ -40,7 +40,7 @@ class Vpn(models.Model):
     primer_ip_mun = models.CharField("Primer IP MUN", max_length=15, null=True, blank=True)
     ultima_ip_mun = models.CharField("Última IP MUN", max_length=15, null=True, blank=True)
     roaming = models.BooleanField()
-    apn = models.CharField("APN", max_length=15, null=True, blank=True)
+    apn = models.CharField("APN", max_length=30, null=True, blank=True)
     dns_1 = models.CharField("DNS 1", max_length=15, null=True, blank=True)
     dns_2 = models.CharField("DNS 2", max_length=15, null=True, blank=True)
 

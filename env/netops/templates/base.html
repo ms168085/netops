@@ -157,6 +157,7 @@
                             Swal.fire('<span style="color:orange;">El APN ID debe ser un número válido.</span>');
                         }
                         else{
+                            //matchea con la URL definida en urls.py
                             window.location.href = "/buscar/"+id+"/";
                         }
                     }
@@ -183,7 +184,8 @@
                             Swal.fire('<span style="color:orange;">El APN no puede estar vacío.</span>');
                         }
                         else{
-                            window.location.href = `/buscarAPN2/${texto}`;
+                            //matchea con la URL definida en urls.py
+                            window.location.href = `/buscarAPN/${texto}`;
                         }
                     }
                 });

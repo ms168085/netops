@@ -1,10 +1,11 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic import FormView, ListView
 from .forms import RegistrarVPNForm
 from django.urls import reverse_lazy
 from django.contrib import messages
 from .models import Vpn
+from django.contrib.auth.decorators import login_required
 
 # Create your views here.
 class RegistrarVPN(LoginRequiredMixin, FormView):
@@ -29,3 +30,33 @@ class ListVPN(LoginRequiredMixin, ListView):
     model = Vpn
     context_object_name = 'vpns'
     ordering = ('apn_id')
+
+@login_required
+def buscar_por_APNID(request, apnid):
+    try:
+        vpn = get_object_or_404(Vpn, apn_id=apnid)
+        data = {
+            'vpn': vpn
+        }
+        return render(request, 'vpn/buscar.html', data)
+    except Vpn.DoesNotExist:
+        messages.error(request, "No existe VPN con ese APN ID")
+        return redirect('users_app:index')
+    except Exception as e:
+        messages.error(request, "No se encontró VPN para ese APN ID")
+        return redirect('users_app:index')
+
+@login_required
+def buscar_por_APN(request, texto):
+    try:
+        vpn = get_object_or_404(Vpn, apn__iexact=texto)
+        data = {
+            'vpn':vpn
+        }
+        return render(request, 'vpn/buscar.html', data)
+    except Vpn.DoesNotExist:
+        messages.error(request, "No existe VPN con ese APN")
+        return redirect('users_app:index')
+    except Exception as e:
+        messages.error(request, "No se encontró VPN para ese APN")
+        return redirect('users_app:index')
