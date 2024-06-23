@@ -8,5 +8,6 @@ urlpatterns = [
     path('lista_vpns/', views.ListVPN.as_view(), name="lista_vpns"),
     path('buscar/<apnid>/', views.buscar_por_APNID, name="buscar_por_apnid"),
     path('buscarAPN/<texto>/', views.buscar_por_APN, name="buscar_por_apn"),
+    path('actualizar/<int:pk>/', views.UpdateVPN.as_view(), name='actualizar_vpn'),
 ]
 

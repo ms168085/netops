@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.views.generic import FormView, ListView
+from django.views.generic import FormView, ListView, UpdateView
 from .forms import RegistrarVPNForm
 from django.urls import reverse_lazy
 from django.contrib import messages
@@ -30,6 +30,23 @@ class ListVPN(LoginRequiredMixin, ListView):
     model = Vpn
     context_object_name = 'vpns'
     ordering = ('apn_id')
+
+class UpdateVPN(LoginRequiredMixin, UpdateView):
+    model = Vpn
+    template_name = 'vpn/actualizar.html'
+    form_class = RegistrarVPNForm
+    success_url = reverse_lazy('vpn_app:lista_vpns')
+
+    def form_valid(self, form):
+        vpn = form.save(commit=False)
+        vpn.usuario = self.request.user  #Asignar el usuario logueado
+        vpn.save()
+        messages.success(self.request, 'La VPN ha sido actualizada con éxito.')
+        return super().form_valid(form)
+
+    def form_invalid(self, form):
+        messages.error(self.request, 'Error al actualizar la VPN. Por favor, revise los datos ingresados.')
+        return self.render_to_response(self.get_context_data(form=form))
 
 @login_required
 def buscar_por_APNID(request, apnid):

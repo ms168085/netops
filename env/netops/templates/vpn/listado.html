@@ -2,6 +2,21 @@
 
 {% load static %}
 
+{% block css %}
+<style>
+    .spacing{
+        letter-spacing: 1px;
+        font-weight: lighter;
+        font-size: small;
+    }
+    .spacing:hover{
+        background-color: #F3AE00;
+        color: #18265A;
+        font-weight: bold;
+    }
+</style>
+{% endblock %}
+
 {% block content %}
 <div class="row">
     <div class="card-body">
@@ -29,7 +44,7 @@
                     <td>APN ID</td>
                     <td>APN</td>
                     <td>Scripts</td>
-                    <td>Editar</td>
+                    <td>Actualizar Datos</td>
                 </tr>
             </thead>
             <tbody class="text-center">
@@ -38,7 +53,11 @@
                         <td>{{ v.apn_id }}</td>
                         <td>{{ v.apn }}</td>
                         <td>Pendiente</td>
-                        <td>Pendiente</td>
+                        <td>
+                            <a href="{% url 'vpn_app:actualizar_vpn' v.id %}">
+                                <span class="badge bg-azul naranja p-2 spacing">ACTUALIZAR</span>
+                            </a>
+                        </td>
                     </tr>
                 {% endfor %}
             </tbody>

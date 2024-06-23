@@ -28,7 +28,7 @@
                     <a href="{% url 'users_app:index' %}" class="azul">Inicio</a>
                 </li>
                 <li class="breadcrumb-item azul" aria-current="page">
-                    Registrar VPN
+                    Actualizar
                 </li>
             </ol>
         </nav>
@@ -36,7 +36,7 @@
 </section>
 
 <section class="container-fluid shadow rounded pt-3 pb-3">
-    <h1 class="text-center azul">Registrar datos para VPN</h1>
+    <h1 class="text-center azul">Actualizar datos de VPN</h1>
      
     <section>
         <form action="" method="post" class="mx-auto azul p-3 rounded-lg">
@@ -44,14 +44,14 @@
 
             <section class="mb-3">
                 <label class="form-label" for="id_con_sitio_central">¿VPN con sitio central?</label>
-                <input type="checkbox" class="form-check" name="con_sitio_central" id="id_con_sitio_central">
+                <input type="checkbox" class="form-check" name="con_sitio_central" id="id_con_sitio_central" {% if form.instance.con_sitio_central %}checked{% endif %}>
             </section>            
 
             <section id="con_sitio_central" class="mb-3">
                 <!-- CON SITIO CENTRAL -->
                 <section class="mb-3 w-50">
                     <label for="id_vpn_instance" class="form-label">VPN instance:</label>
-                    <input type="text" name="vpn_instance" class="form-control" maxlength="20" id="id_vpn_instance">
+                    <input type="text" name="vpn_instance" class="form-control" maxlength="20" id="id_vpn_instance" value="{%if form.instance.vpn_instance %}{{form.instance.vpn_instance}}{%endif%}">
                 </section>
             
                 <section class="bordered-section position-relative mb-3 rounded">
@@ -60,40 +60,40 @@
                     <section class="mt-3 mb-3 form-row">
                         <section class="from-group col-6">
                             <label for="id_tinco_movil" class="form-label">Nro. de trámite Tinco móvil:</label>
-                            <input type="text" class="form-control" name="tinco_movil" maxlength="10" id="id_tinco_movil" placeholder="Por ej. P12345">
+                            <input type="text" class="form-control" name="tinco_movil" maxlength="10" id="id_tinco_movil" value="{%if form.instance.tinco_movil%}{{form.instance.tinco_movil}}{%endif%}">
                         </section>
                         <section class="from-group col-6">
                             <label for="id_route_distinguisher" class="form-label">Route distinguisher:</label>
-                            <input type="text" name="route_distinguisher" maxlength="8" class="form-control" id="id_route_distinguisher" placeholder="Por ej. 1234">
+                            <input type="text" name="route_distinguisher" maxlength="8" class="form-control" id="id_route_distinguisher" value="{%if form.instance.route_distinguisher%}{{form.instance.route_distinguisher}}{%endif%}" >
                         </section>
                     </section>
 
                     <section class="mb-3 form-row">
                         <section class="from-group col-6">
                             <label for="id_vprn_id" class="form-label">VPRN Id:</label>
-                            <input type="text" name="vprn_id" class="form-control" maxlength="8" id="id_vprn_id" placeholder="Por ej. 12345">
+                            <input type="text" name="vprn_id" class="form-control" maxlength="8" id="id_vprn_id" value="{%if form.instance.vprn_id%}{{form.instance.vprn_id}}{%endif%}" >
                         </section>
                     </section>
 
                     <section class="mb-3 form-row">
                         <section class="from-group col-6">
                             <label for="id_ip_mag" class="form-label">IP de MAG:</label>
-                            <input type="text" name="ip_mag" maxlength="15" class="form-control" id="id_ip_mag" placeholder="Por ej. 192.168.1.2">
+                            <input type="text" name="ip_mag" maxlength="15" class="form-control" id="id_ip_mag" value="{%if form.instance.ip_mag%}{{form.instance.ip_mag}}{%endif%}">
                         </section>
                         <section class="from-group col-6">
                             <label for="id_peer_mag" class="form-label">Peer de MAG:</label>
-                            <input type="text" name="peer_mag" class="form-control" maxlength="15" id="id_peer_mag" placeholder="Por ej. 192.168.1.3">
+                            <input type="text" name="peer_mag" class="form-control" maxlength="15" id="id_peer_mag" value="{%if form.instance.peer_mag%}{{form.instance.peer_mag}}{%endif%}">
                         </section>
                     </section>
 
                     <section class="mb-3 form-row">
                         <section class="from-group col-6">
                             <label for="id_ip_mun" class="form-label">IP de MUN:</label>
-                            <input type="text" name="ip_mun" class="form-control" maxlength="15" id="id_ip_mun" placeholder="Por ej. 192.168.1.3">
+                            <input type="text" name="ip_mun" class="form-control" maxlength="15" id="id_ip_mun" value="{%if form.instance.ip_mun%}{{form.instance.ip_mun}}{%endif%}" >
                         </section>
                         <section class="from-group col-6">
                             <label for="id_peer_mun" class="form-label">Peer de MUN:</label>
-                            <input type="text" name="peer_mun" class="form-control" maxlength="15" id="id_peer_mun" placeholder="Por ej. 192.168.1.4">
+                            <input type="text" name="peer_mun" class="form-control" maxlength="15" id="id_peer_mun" value="{%if form.instance.peer_mun%}{{form.instance.peer_mun}}{%endif%}" >
                         </section>
                     </section>
                 </section>            
@@ -103,8 +103,8 @@
             <section id="conectividad_moviles" class="mb-3 w-50">
                 <label for="id_conectividad_entre_moviles" class="form-label">Conectividad entre móviles:</label>
                 <select name="conectividad_entre_moviles" id="id_conectividad_entre_moviles" class="form-control">                    
-                    <option value="1" selected>Full mesh</option>
-                    <option value="2">Hub &amp; Spoke</option>
+                    <option value="1" {% if form.instance.conectividad_entre_moviles == "1" %}selected{% endif %}>Full mesh</option>
+                <option value="2" {% if form.instance.conectividad_entre_moviles == "2" %}selected{% endif %}>Hub & spoke</option>
                 </select>
             </section>
 
@@ -114,33 +114,33 @@
                 <section class="mb-3 mt-3 form-row">
                     <section class="from-group col-6">
                         <label for="id_nombre_pool" class="form-label">Nombre del pool:</label>
-                        <input type="text" name="nombre_pool" class="form-control" maxlength="15" id="id_nombre_pool" placeholder="Por ej. nombre.pool">
+                        <input type="text" name="nombre_pool" class="form-control" maxlength="15" id="id_nombre_pool" value="{%if form.instance.nombre_pool%}{{ form.instance.nombre_pool}}{%endif%}" >
                     </section>
                     <section class="from-group col-6">
                         <label for="id_acl_node" class="form-label">ACL Node:</label>
-                        <input type="text" name="acl_node" class="form-control" maxlength="15" id="id_acl_node">
+                        <input type="text" name="acl_node" class="form-control" maxlength="15" id="id_acl_node" value="{%if form.instance.acl_node%}{{ form.instance.acl_node}}{%endif%}">
                     </section>
                 </section>
 
                 <section class="mb-3 form-row">
                     <section class="from-group col-6">
                         <label for="id_server_ip" class="form-label">Server IP:</label>
-                        <input type="text" name="server_ip" class="form-control" maxlength="15" id="id_server_ip" placeholder="Por ej. 192.168.3.1">
+                        <input type="text" name="server_ip" class="form-control" maxlength="15" id="id_server_ip" value="{%if form.instance.server_ip%}{{ form.instance.server_ip}}{%endif%}">
                     </section>
                     <section class="from-group col-6">
                         <label for="id_wildcard" class="form-label">Wildcard:</label>
-                        <input type="text" name="wildcard" class="form-control" maxlength="15" id="id_wildcard" placeholder="Por ej. 255.255.0.0">
+                        <input type="text" name="wildcard" class="form-control" maxlength="15" id="id_wildcard" value="{%if form.instance.wildcard%}{{ form.instance.wildcard}}{%endif%}">
                     </section>
                 </section>
 
                 <section class="mb-3 form-row">
                     <section class="from-group col-6">
                         <label for="id_nombre_acl" class="form-label">Nombre de ACL:</label>
-                        <input type="text" name="nombre_acl" class="form-control" maxlength="30" id="id_nombre_acl">
+                        <input type="text" name="nombre_acl" class="form-control" maxlength="30" id="id_nombre_acl" value="{%if form.instance.nombre_acl%}{{ form.instance.nombre_acl }}{%endif%}">
                     </section>
                     <section class="from-group col-6">
                         <label for="id_prioridad" class="form-label">Prioridad:</label>
-                        <input type="number" name="prioridad" class="form-control" min="0" id="id_prioridad" placeholder="Por ej. 100">
+                        <input type="number" name="prioridad" class="form-control" min="0" id="id_prioridad" value="{%if form.instance.prioridad%}{{ form.instance.prioridad}}{%endif%}">
                     </section>
                 </section>
             </section>
@@ -154,54 +154,53 @@
                     <section class="mb-3 form-row">
                         <section class="from-group col-6">
                             <label for="id_nombre_pool_moviles" class="form-label">Nombre del pool de móviles:</label>
-                            <input type="text" name="nombre_pool_moviles" class="form-control" maxlength="15" id="id_nombre_pool_moviles">
+                            <input type="text" name="nombre_pool_moviles" class="form-control" maxlength="15" id="id_nombre_pool_moviles" value="{%if form.instance.nombre_pool_moviles%}{{ form.instance.nombre_pool_moviles}}{%endif%}">
                         </section>
                     </section>
-
                     <h4 class="lead">IP fijas: mismo rango de IPs en MAG y MUN</h4>
                     <h4 class="lead">IP dinámicas: mitad del rango de IPs para MAG y la otra mitad del rango de IPs para MUN</h4>
-                          
+                    
                     <section class="mb-3 form-row">
                         <section class="from-group col-6 mt-3">
                             <label for="id_primer_ip_mag" class="form-label">Primera IP de MAG:</label>
-                            <input type="text" name="primer_ip_mag" class="form-control" maxlength="15" id="id_primer_ip_mag" placeholder="Por ej. 192.168.5.1">
+                            <input type="text" name="primer_ip_mag" class="form-control" maxlength="15" id="id_primer_ip_mag" value="{%if form.instance.primer_ip_mag%}{{ form.instance.primer_ip_mag }}{%endif%}">
                         </section>
                         <section class="from-group col-6 mt-3">
                             <label for="id_ultima_ip_mag" class="form-label">Última IP de MAG:</label>
-                            <input type="text" name="ultima_ip_mag" class="form-control" maxlength="15" id="id_ultima_ip_mag" placeholder="Por ej. 192.168.5.254">
+                            <input type="text" name="ultima_ip_mag" class="form-control" maxlength="15" id="id_ultima_ip_mag" value="{%if form.instance.ultima_ip_mag%}{{ form.instance.ultima_ip_mag }}{%endif%}">
                         </section>
                     </section>
 
                     <section class="mb-3 form-row">
                         <section class="from-group col-6">
                             <label for="id_primer_ip_mun" class="form-label">Primera IP de MUN:</label>
-                            <input type="text" name="primer_ip_mun" class="form-control" maxlength="15" id="id_primer_ip_mun" placeholder="Por ej. 192.168.6.1">
+                            <input type="text" name="primer_ip_mun" class="form-control" maxlength="15" id="id_primer_ip_mun" value="{%if form.instance.primer_ip_mun%}{{ form.instance.primer_ip_mun }}{%endif%}">
                         </section>
                         <section class="from-group col-6">
                             <label for="id_ultima_ip_mun" class="form-label">Última IP de MUN:</label>
-                            <input type="text" name="ultima_ip_mun" class="form-control" maxlength="15" id="id_ultima_ip_mun" placeholder="Por ej. 192.168.6.254">
+                            <input type="text" name="ultima_ip_mun" class="form-control" maxlength="15" id="id_ultima_ip_mun" value="{%if form.instance.ultima_ip_mun%}{{ form.instance.ultima_ip_mun }}{%endif%}">
                         </section>
                     </section>
 
                     <section class="mb-3 form-row">
                         <section class="from-group col-6">
                             <label for="id_apn" class="form-label">APN:</label>
-                            <input type="text" name="apn" maxlength="15" class="form-control" id="id_apn" placeholder="Por ej. empresa.vpnantel">                            
+                            <input type="text" name="apn" maxlength="15" class="form-control" id="id_apn" value="{{ form.instance.apn }}">                            
                         </section>
                         <section class="from-group col-4 ml-3">
                             <label for="id_roaming" class="form-label">¿ Roaming ?</label>
-                            <input type="checkbox" name="roaming" class="form-check form-lg ml-3" id="id_roaming">
+                            <input type="checkbox" name="roaming" class="form-check form-lg ml-3" id="id_roaming" {% if form.instance.roaming %}checked{% endif %}>
                         </section>
                     </section>
 
                     <section class="mb-3 form-row">
                         <section class="from-group col-6">
                             <label for="id_dns_1" class="form-label">Prmer DNS:</label>
-                            <input type="text" name="dns_1" class="form-control" maxlength="15" id="id_dns_1">
+                            <input type="text" name="dns_1" class="form-control" maxlength="15" id="id_dns_1" value="{%if form.instance.dns_1%}{{ form.instance.dns_1 }}{%endif%}">
                         </section>
                         <section class="from-group col-6">
                             <label for="id_dns_2" class="form-label">Segundo DNS:</label>
-                            <input type="text" name="dns_2" class="form-control" maxlength="15" id="id_dns_2">
+                            <input type="text" name="dns_2" class="form-control" maxlength="15" id="id_dns_2" value="{%if form.instance.dns_2%}{{ form.instance.dns_2 }}{%endif%}">
                         </section>
                     </section>
                 </section>
@@ -212,18 +211,18 @@
                     <section class="mb-3 mt-3 form-row">
                         <section class="from-group col-6">
                             <label for="id_cliente_acm" class="form-label">Cliente en ACM:</label>
-                            <input type="text" name="cliente_acm" class="form-control" maxlength="15" id="id_cliente_acm">
+                            <input type="text" name="cliente_acm" class="form-control" maxlength="15" id="id_cliente_acm" value="{%if form.instance.cliente_acm%}{{ form.instance.cliente_acm }}{%endif%}">
                         </section>
                         <section class="from-group col-6">
                             <label for="id_apn_id" class="form-label">APN ID:</label>
-                            <input type="number" min="0" name="apn_id" class="form-control" id="id_apn_id">
+                            <input type="number" min="0" name="apn_id" class="form-control" id="id_apn_id" value="{%if form.instance.apn_id%}{{ form.instance.apn_id }}{%endif%}">
                         </section>
                     </section>
 
                     <section class="mb-3 form-row">
                         <section class="from-group col-6">
                             <label for="id_tinco_fija" class="form-label">Nro. trámite de TINCO fija:</label>
-                            <input type="text" name="tinco_fija" class="form-control" maxlength="15" id="id_tinco_fija">
+                            <input type="text" name="tinco_fija" class="form-control" maxlength="15" id="id_tinco_fija" value="{%if form.instance.tinco_fija%}{{ form.instance.tinco_fija }}{%endif%}">
                         </section>
                     </section>
                 </section>
@@ -234,23 +233,23 @@
                     <section class="mb-3 mt-3 form-row">
                         <section class="from-group col-6">
                             <label for="id_empresa" class="form-label">Contacto de la empresa:</label>
-                            <input type="text" name="empresa" class="form-control" maxlength="100" id="id_empresa">
+                            <input type="text" name="empresa" class="form-control" maxlength="100" id="id_empresa" value="{%if form.instance.empresa%}{{ form.instance.empresa }}{%endif%}">
                         </section>
                         <section class="from-group col-6">
                             <label for="id_ip_router" class="form-label">IP del router del cliente:</label>
-                            <input type="text" name="ip_router" class="form-control" maxlength="15" id="id_ip_router">
+                            <input type="text" name="ip_router" class="form-control" maxlength="15" id="id_ip_router" value="{%if form.instance.ip_router%}{{ form.instance.ip_router }}{%endif%}">
                         </section>
                     </section>
                     <section class="mb-3">
                         <label for="id_contacto" class="form-label">Forma de contacto:</label>
-                        <input type="text" name="contacto" class="form-control" maxlength="200" id="id_contacto" placeholder="Por ej. email y/o teléfono">
+                        <input type="text" name="contacto" class="form-control" maxlength="200" id="id_contacto" value="{%if form.instance.contacto%}{{ form.instance.contacto }}{%endif%}">
                     </section>
                 </section>
             </section>
 
             <section class="mb-3 mt-5">
                 <button type="submit" class="btn btn-primary w-50">
-                    <i class="fas fa-save"></i>&nbsp;&nbsp;REGISTRAR VPN
+                    <i class="fas fa-save"></i>&nbsp;&nbsp;ACTUALIZAR VPN
                 </button>
             </section>
             
@@ -258,49 +257,4 @@
     </section>
 </section>
     
-{% endblock %}
-
-{% block js%}
-<script>
-
-const check_sitio_central = document.querySelector("#id_con_sitio_central");
-const section_sitio_central = document.querySelector("#con_sitio_central");
-const select_conectividad = document.querySelector("#id_conectividad_entre_moviles");
-const section_acl = document.querySelector("#armado_acl");
-
-document.addEventListener("DOMContentLoaded", inicio);
-function inicio(){
-    check_sitio_central.addEventListener("click", evento_check);
-    select_conectividad.addEventListener("change", cambio_el_select);
-
-    //Ocultar las secciones
-    $("#con_sitio_central").hide(); //Oculto el section
-    $("#conectividad_moviles").hide(); //Oculto el <select>: FullMesh - Hub&Spoke
-    $("#armado_acl").hide(); //Oculto el section
-}
-
-function evento_check(e){
-    if (check_sitio_central.checked) {
-        $("#con_sitio_central").show();
-        $("#conectividad_moviles").show();
-    } else {
-        $("#con_sitio_central").hide();
-        $("#conectividad_moviles").hide();        
-    }
-}
-
-function cambio_el_select(e){
-    const selectedValue = select_conectividad.value;
-    //Full Mesh = 1
-    //Hub & Spoke = 2
-    if (selectedValue == "1"){
-        $("#armado_acl").hide();
-    }else if(selectedValue == "2"){
-        $("#armado_acl").show();
-    }
-}
-
-
-
-</script>
 {% endblock %}

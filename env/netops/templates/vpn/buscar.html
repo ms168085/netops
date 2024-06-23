@@ -21,7 +21,7 @@
 <section class="row no-gutters">
     <section class="col-sm-10 mx-auto">
         <section class="card-body bg-azul naranja rounded">
-            <h4 class="text-center mt-3 mb-5">Resultado de la búsqueda:</h4>
+            <h4 class="text-center mt-3 mb-5">Resultado de búsqueda:</h4>
             <p>Registrada por: {{ vpn.usuario }}</p>
             <p>VPN Instance: {% if vpn.vpn_instance %}{{ vpn.vpn_instance }}{%else%} - - -{% endif %}</p>
             <p>Conectividad entre móviles: {% if vpn.conectividad_entre_moviles == "1" %}Full Mesh{%else%}Hub & Spoke{% endif %}</p>
@@ -33,6 +33,12 @@
             <p>IP Router de la empresa: {{ vpn.ip_router }}</p>
             <p>Contacto de la empresa: {{ vpn.contacto }}</p>
             <p>Registrada en fecha: {{ vpn.created }}</p>
+
+            <section class="text-center mb-3">
+                <a href="{% url 'vpn_app:actualizar_vpn' vpn.id %}" class="btn btn-primary mt-5">
+                    <i class="far fa-edit fa-lg"></i>&nbsp;&nbsp;ACTUALIZAR DATOS DE LA VPN
+                </a>
+            </section>
         </section>
     </section>
 </section>
