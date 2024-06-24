@@ -45,14 +45,15 @@
             <section class="mb-3">
                 <label class="form-label" for="id_con_sitio_central">¿VPN con sitio central?</label>
                 <input type="checkbox" class="form-check" name="con_sitio_central" id="id_con_sitio_central">
-            </section>            
+            </section>
+
+            <section class="mb-3 w-50">
+                <label for="id_vpn_instance" class="form-label">VPN instance:</label>
+                <input type="text" name="vpn_instance" class="form-control" maxlength="20" id="id_vpn_instance" required>
+            </section>
 
             <section id="con_sitio_central" class="mb-3">
-                <!-- CON SITIO CENTRAL -->
-                <section class="mb-3 w-50">
-                    <label for="id_vpn_instance" class="form-label">VPN instance:</label>
-                    <input type="text" name="vpn_instance" class="form-control" maxlength="20" id="id_vpn_instance">
-                </section>
+                <!-- CON SITIO CENTRAL -->              
             
                 <section class="bordered-section position-relative mb-3 rounded">
                     <h2 class="section-title position-absolute azul">ARMADO DE BGP</h2>
