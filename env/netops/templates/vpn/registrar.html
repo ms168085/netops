@@ -35,39 +35,38 @@
     </section>
 </section>
 
-<section class="container-fluid shadow rounded pt-3 pb-3">
-    <h1 class="text-center azul">Registrar datos para VPN</h1>
+<section class="container-fluid shadow rounded px-3">
+    <h1 class="text-center azul pt-3">Registrar datos de <span class="font-weight-bold">VPN</span></h1>
      
     <section>
         <form action="" method="post" class="mx-auto azul p-3 rounded-lg">
             {% csrf_token %}
+            <section class="mt-3 mb-3 form-row">
+                <section class="from-group col-4">
+                    <label for="id_vpn_instance" class="form-label">VPN instance:</label>
+                    <input type="text" name="vpn_instance" class="form-control" maxlength="20" id="id_vpn_instance" required>
+                </section>
+
+                <section class="from-group col-4">
+                    <label for="id_tinco_movil" class="form-label">Nro. de trámite Tinco móvil:</label>
+                    <input type="text" class="form-control" name="tinco_movil" maxlength="10" id="id_tinco_movil" placeholder="Por ej. P12345">
+                </section>
+                
+                <section class="from-group col-4">
+                    <label for="id_route_distinguisher" class="form-label">Route distinguisher:</label>
+                    <input type="text" name="route_distinguisher" maxlength="8" class="form-control" id="id_route_distinguisher" placeholder="Por ej. 1234">
+                </section>
+            </section>            
 
             <section class="mb-3">
                 <label class="form-label" for="id_con_sitio_central">¿VPN con sitio central?</label>
                 <input type="checkbox" class="form-check" name="con_sitio_central" id="id_con_sitio_central">
             </section>
 
-            <section class="mb-3 w-50">
-                <label for="id_vpn_instance" class="form-label">VPN instance:</label>
-                <input type="text" name="vpn_instance" class="form-control" maxlength="20" id="id_vpn_instance" required>
-            </section>
-
             <section id="con_sitio_central" class="mb-3">
-                <!-- CON SITIO CENTRAL -->              
-            
+                <!-- CON SITIO CENTRAL -->            
                 <section class="bordered-section position-relative mb-3 rounded">
-                    <h2 class="section-title position-absolute azul">ARMADO DE BGP</h2>
-
-                    <section class="mt-3 mb-3 form-row">
-                        <section class="from-group col-6">
-                            <label for="id_tinco_movil" class="form-label">Nro. de trámite Tinco móvil:</label>
-                            <input type="text" class="form-control" name="tinco_movil" maxlength="10" id="id_tinco_movil" placeholder="Por ej. P12345">
-                        </section>
-                        <section class="from-group col-6">
-                            <label for="id_route_distinguisher" class="form-label">Route distinguisher:</label>
-                            <input type="text" name="route_distinguisher" maxlength="8" class="form-control" id="id_route_distinguisher" placeholder="Por ej. 1234">
-                        </section>
-                    </section>
+                    <h2 class="section-title position-absolute azul">ARMADO DE BGP</h2>                    
 
                     <section class="mb-3 form-row">
                         <section class="from-group col-6">
@@ -276,17 +275,15 @@ function inicio(){
 
     //Ocultar las secciones
     $("#con_sitio_central").hide(); //Oculto el section
-    $("#conectividad_moviles").hide(); //Oculto el <select>: FullMesh - Hub&Spoke
+    $("#conectividad_moviles").show(); //<select>: FullMesh - Hub&Spoke
     $("#armado_acl").hide(); //Oculto el section
 }
 
 function evento_check(e){
     if (check_sitio_central.checked) {
         $("#con_sitio_central").show();
-        $("#conectividad_moviles").show();
     } else {
-        $("#con_sitio_central").hide();
-        $("#conectividad_moviles").hide();        
+        $("#con_sitio_central").hide();        
     }
 }
 

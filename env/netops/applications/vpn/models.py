@@ -5,13 +5,14 @@ from ..users.models import User
 class Vpn(models.Model):
     #Usuario que registra la VPN
     usuario = models.ForeignKey(User, related_name="vpn_user", on_delete=models.CASCADE)
-
-    con_sitio_central = models.BooleanField("Con sitio central")
+    
     vpn_instance = models.CharField("VPN instance", max_length=20, null=True, blank=True)
-
-    #Armado del BGP
     tinco_movil = models.CharField("Tinco movil", max_length=10, null=True, blank=True)
     route_distinguisher = models.CharField("Route distinguisher", max_length=8, null=True, blank=True)
+
+    con_sitio_central = models.BooleanField("Con sitio central")
+
+    #Armado del BGP    
     vprn_id = models.CharField("VPRN Id", max_length=8, null=True, blank=True)
     ip_mag = models.CharField("IP de MAG", max_length=15, null=True, blank=True)
     peer_mag = models.CharField("Peer de MAG", max_length=15, null=True, blank=True)

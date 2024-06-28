@@ -14,7 +14,7 @@
         color: #18265A;
         font-weight: bold;
     }
-    a{
+    .links{
         text-decoration: none;
         letter-spacing: 2px;
     }
@@ -45,6 +45,7 @@
         <table class="table" id="tabla">
             <thead class="text-center bg-azul naranja">
                 <tr>
+                    <td>Tipo</td>
                     <td>APN ID</td>
                     <td>APN</td>
                     <td>Scripts UGWs</td>
@@ -57,21 +58,28 @@
             <tbody class="text-center">
                 {% for v in vpns %}
                     <tr>
+                        <td>
+                            {% if v.conectividad_entre_moviles == "1" %}
+                                FULL MESH
+                            {% else %}
+                                HUB & SPOKE
+                            {% endif %}
+                        </td>
                         <td>{{ v.apn_id }}</td>
                         <td>{{ v.apn }}</td>
                         <td>
-                            <a href="#" class="badge bg-success text-white p-2">MAG</a>&nbsp;
-                            <a href="#" class="badge bg-primary text-white p-2">MUN</a>
+                            <a href="{% url 'vpn_app:ugw_mag' v.id %}" class="badge bg-success text-white p-2 links">MAG</a>&nbsp;
+                            <a href="{% url 'vpn_app:ugw_mun' v.id %}" class="badge bg-primary text-white p-2 links">MUN</a>
                         </td>
                         <td>
-                            <a href="{% url 'vpn_app:hss_mag' v.id %}" class="badge bg-success text-white p-2">MAG</a>&nbsp;
-                            <a href="{% url 'vpn_app:hss_mun' v.id %}" class="badge bg-primary text-white p-2">MUN</a>
+                            <a href="{% url 'vpn_app:hss_mag' v.id %}" class="badge bg-success text-white p-2 links">MAG</a>&nbsp;
+                            <a href="{% url 'vpn_app:hss_mun' v.id %}" class="badge bg-primary text-white p-2 links">MUN</a>
                         </td>
                         <td>
-                            <a href="{% url 'vpn_app:vusn' v.id %}" class="badge bg-azul text-white p-2">vUSN</a>
+                            <a href="{% url 'vpn_app:vusn' v.id %}" class="badge bg-azul text-white p-2 links">vUSN</a>
                         </td>
                         <td>
-                            <a href="{% url 'vpn_app:hlr' v.id %}" class="badge bg-azul text-white p-2">HLR</a>
+                            <a href="{% url 'vpn_app:hlr' v.id %}" class="badge bg-azul text-white p-2 links">HLR</a>
                         </td>
                         <td>
                             <a href="{% url 'vpn_app:actualizar_vpn' v.id %}">

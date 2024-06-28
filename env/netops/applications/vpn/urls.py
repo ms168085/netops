@@ -14,5 +14,7 @@ urlpatterns = [
     path('vusn/<int:vpn_id>/', views.vusn, name='vusn'), # vUSN
     path('hss_mag/<int:vpn_id>/', views.hss_mag, name='hss_mag'), # HSS MAG
     path('hss_mun/<int:vpn_id>/', views.hss_mun, name='hss_mun'), # HSS MUN
+    path('ugw_mag/<int:vpn_id>/', views.ugw_mag, name='ugw_mag'), # UGW MAG
+    path('ugw_mun/<int:vpn_id>/', views.ugw_mun, name='ugw_mun'), # UGW MUN
 ]
 

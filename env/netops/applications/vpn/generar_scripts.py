@@ -67,3 +67,24 @@ def generar_script_hss(vpn, hss_type):
         f'show HSS-EsmProfile={vpn.apn}\n'
     )
     return contenido
+
+# Función para generar script para los UGW
+def generar_script_ugw(vpn, ugw_type):
+    header = f'***** COMANDOS PARA UGW {ugw_type} *****\n\n'
+    primer_parte = (
+        'system-view\n'
+        f'ip vpn-instance {vpn.vpn_instance}\n'
+        f'description TRAMITE {vpn.tinco_movil}\n'
+        f'route-distinguisher {vpn.route_distinguisher}:1\n\n'
+        f'interface Eth-Trunks5.{vpn.route_distinguisher}\n'
+        f'vlan-type dot1q {vpn.route_distinguisher}\n'
+        f'description VPRNID 2 {vpn.tinco_movil[1:]}\n' # Elimino el primer caracter habitualmente P
+        f'ip binding vpn-instance {vpn.vpn_instance}\n'
+        f'ip address {vpn.primer_ip_mag if ugw_type == "MAG" else vpn.primer_ip_mun} 30\n'
+    )
+
+    contenido = (
+        header + 
+        primer_parte
+    )
+    return contenido

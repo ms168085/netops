@@ -7,7 +7,7 @@ from django.urls import reverse_lazy
 from django.contrib import messages
 from .models import Vpn
 from django.contrib.auth.decorators import login_required
-from .generar_scripts import generar_script_hss, generar_script_vusn, generar_script_hlr
+from .generar_scripts import generar_script_hss, generar_script_vusn, generar_script_hlr, generar_script_ugw
 
 # Create your views here.
 class RegistrarVPN(LoginRequiredMixin, FormView):
@@ -122,5 +122,25 @@ def hss_mun(request, vpn_id):
     # Respuesta HTTP con el script en formato .txt
     response = HttpResponse(contenido, content_type='text/plain')
     response['Content-Disposition'] = 'attachment; filename="script_HSS_MUN.txt"'    
+    return response
+
+@login_required
+def ugw_mag(request, vpn_id):
+    vpn = get_object_or_404(Vpn, id=vpn_id)
+    # Contenido del script
+    contenido = generar_script_ugw(vpn, "MAG")
+    # Respuesta HTTP con el script en formato .txt
+    response = HttpResponse(contenido, content_type='text/plain')
+    response['Content-Disposition'] = 'attachment; filename="script_UGW_MAG.txt"'    
+    return response
+
+@login_required
+def ugw_mun(request, vpn_id):
+    vpn = get_object_or_404(Vpn, id=vpn_id)
+    # Contenido del script
+    contenido = generar_script_ugw(vpn, "MUN")
+    # Respuesta HTTP con el script en formato .txt
+    response = HttpResponse(contenido, content_type='text/plain')
+    response['Content-Disposition'] = 'attachment; filename="script_UGW_MUN.txt"'    
     return response
 
