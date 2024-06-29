@@ -22,4 +22,5 @@ urlpatterns = [
     re_path('', include('applications.users.urls')),
     re_path('', include('applications.testing.urls')),
     re_path('', include('applications.vpn.urls')),
+    re_path('', include('applications.lanzamientos.urls')),
 ]

@@ -37,6 +37,7 @@ LOCAL_APPS = (
     'applications.users',
     'applications.testing',
     'applications.vpn',
+    'applications.lanzamientos',
 )
 
 # Aplicaciones de Terceros
