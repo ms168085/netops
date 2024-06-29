@@ -1,0 +1,34 @@
+{% extends 'base.html'%}
+
+{% load static %}
+
+{% block css%}    
+<style>
+</style>        
+{% endblock %}
+
+{% block content %}
+<section class="row">
+    <section class="card-body">
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item">
+                    <a href="{% url 'users_app:index' %}" class="azul">Inicio</a>
+                </li>
+                <li class="breadcrumb-item azul" aria-current="page">
+                    Listado de Lanzamientos de Roaming
+                </li>
+            </ol>
+        </nav>
+    </section>
+</section>
+
+<section class="container-fluid shadow rounded px-3">
+    <h1 class="text-center azul pt-3">Listado de lanzamientos</h1>
+     
+    <section>
+        EN CONSTRUCCIÓN...      
+    </section>
+</section>
+    
+{% endblock %}

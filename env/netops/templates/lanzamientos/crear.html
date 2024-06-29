@@ -1,0 +1,143 @@
+{% extends 'base.html'%}
+
+{% load static %}
+
+{% block css%}    
+<style>
+    textarea{
+        resize: none;
+    }
+    .bordered-section{
+        border: 2px solid #18265A;
+        padding: 2rem;
+        margin-top: 3rem;
+    }
+    .section-title{
+        top: -1rem;
+        left: 1rem;
+        background: #FFF;
+        padding: 0 1rem;
+        font-weight: bold;
+    }
+    .custom-file-input ~ .custom-file-label::after {
+        content: "Seleccionar Archivo";
+    }
+</style>        
+{% endblock %}
+
+{% block content %}
+<section class="row">
+    <section class="card-body">
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item">
+                    <a href="{% url 'users_app:index' %}" class="azul">Inicio</a>
+                </li>
+                <li class="breadcrumb-item azul" aria-current="page">
+                    Registrar Lanzamiento de Roaming
+                </li>
+            </ol>
+        </nav>
+    </section>
+</section>
+
+<section class="container-fluid shadow rounded px-3">
+    <h1 class="text-center azul pt-3">Registrar <span class="font-weight-bold">lanzamiento de roaming</span></h1>
+    <hr class="mt-3 w-75 mx-auto">
+    
+    <section>
+        <form action="" method="post" class="mx-auto azul p-3 rounded-lg" enctype="multipart/form-data">
+            {% csrf_token %}
+
+            <section class="mt-3 mb-3 form-row">
+                <section class="from-group col-4">
+                    <label for="id_operadora" class="form-label">Operadora:</label>
+                    <input type="text" name="operadora" class="form-control" maxlength="100" id="id_operadora" required>
+                </section>
+
+                <section class="from-group col-4">
+                    <label for="id_pais" class="form-label">País:</label>
+                    <input type="text" class="form-control" name="pais" maxlength="40" id="id_pais">
+                </section>
+
+                <section class="from-group col-4">
+                    <label for="id_fecha" class="form-label">Fecha del lanzamiento:</label>
+                    <input type="date" class="form-control" name="fecha" id="id_fecha">
+                </section>
+            </section>
+
+            <section class="mb-3">
+                <label class="form-label" for="id_descripcion">Descripción:</label>
+                <textarea class="form-control" name="descripcion" rows="7" id="id_descripcion"></textarea>
+            </section>
+
+            <section class="mb-5">          
+                <section class="bordered-section position-relative mb-3 rounded">
+                    <h2 class="section-title position-absolute azul">Datos del IR21</h2>
+                    <section class="mt-3 mb-3 form-row">
+                        <section class="from-group col-3">
+                            <label for="id_mcc" class="form-label">MCC:</label>
+                            <input type="text" name="mcc" class="form-control" maxlength="3" id="id_mcc" required>
+                        </section>
+        
+                        <section class="from-group col-3">
+                            <label for="id_mnc" class="form-label">MNC:</label>
+                            <input type="text" class="form-control" name="mnc" maxlength="3" id="id_mnc">
+                        </section>
+        
+                        <section class="from-group col-3">
+                            <label for="id_nc" class="form-label">NC:</label>
+                            <input type="text" class="form-control" name="nc" id="id_nc">
+                        </section>
+
+                        <section class="from-group col-3">
+                            <label for="id_cc" class="form-label">CC:</label>
+                            <input type="text" class="form-control" name="cc" id="id_cc">
+                        </section>
+                    </section>                                       
+                </section>            
+            </section>
+
+            <section class="mb-5">
+                <section class="mb-3 form-row">
+                    <section class="from-group col-6">
+                        <label for="id_carrier" class="form-label">Carrier:</label>
+                        <select class="form-control" name="carrier" id="id_carrier">
+                            <option value="1">Syniverse</option>
+                            <option value="2">Comfone</option>
+                        </select>
+                    </section>
+
+                    <section class="from-group col-6">
+                        <label class="form-label" for="id_dmrt">DMRT:</label>
+                        <input type="text" name="dmrt" id="id_dmrt" class="form-control" maxlength="4" required>
+                    </section>
+                </section>
+            </section>
+
+            <section class="custom-file mb-5 w-50" id="customFile">
+                <input type="file" class="custom-file-input" name="ir21" id="id_ir21" accept=".pdf, .doc, .docx">
+                <label class="custom-file-label" for="id_ir21">Documento IR21</label>                
+            </section>
+
+            <section class="mb-3">
+                <button type="submit" class="btn btn-primary w-50">
+                    <i class="fas fa-save"></i>&nbsp;&nbsp;REGISTRAR LANZAMIENTO
+                </button>
+            </section>
+            
+        </form>        
+    </section>
+</section>
+    
+{% endblock %}
+
+{% block js %}
+    <!-- Actualizo el input type="file" con el nombre del archivo seleccionado -->
+    <script>
+        $('.custom-file-input').on('change', function(event) {
+            let inputFile = event.currentTarget;
+            $(inputFile).parent().find('.custom-file-label').html(inputFile.files[0].name);
+        });
+    </script>
+{% endblock %}
