@@ -4,31 +4,103 @@
 
 {% block css%}    
 <style>
+    .spacing{
+        letter-spacing: 2px;
+    }
+    .spacing:hover{
+        color: #18265A;
+        background-color: #F3AE00;
+    }
+    #descargar{
+        text-decoration: none;
+        color: #18265A;
+    }
 </style>        
 {% endblock %}
 
 {% block content %}
-<section class="row">
-    <section class="card-body">
-        <nav aria-label="breadcrumb">
-            <ol class="breadcrumb">
-                <li class="breadcrumb-item">
-                    <a href="{% url 'users_app:index' %}" class="azul">Inicio</a>
-                </li>
-                <li class="breadcrumb-item azul" aria-current="page">
-                    Listado de Lanzamientos de Roaming
-                </li>
-            </ol>
-        </nav>
+    <section class="row">
+        <section class="card-body">
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item">
+                        <a href="{% url 'users_app:index' %}" class="azul">Inicio</a>
+                    </li>
+                    <li class="breadcrumb-item azul" aria-current="page">
+                        Listado de Lanzamientos de Roaming
+                    </li>
+                </ol>
+            </nav>
+        </section>
     </section>
-</section>
 
-<section class="container-fluid shadow rounded px-3">
-    <h1 class="text-center azul pt-3">Listado de lanzamientos</h1>
-     
-    <section>
-        EN CONSTRUCCIÓN...      
+    <section class="container-fluid shadow rounded pt-3 pb-3">
+        <h1 class="text-center azul">Lanzamientos de roaming</h1>
+        {% if lanzamientos %}        
+        <section class="mt-3">
+            <table class="table table-striped" id="tabla">
+                <thead class="text-center bg-azul naranja">
+                    <tr>
+                        <td>País</td>
+                        <td>Operadora</td>
+                        <td>
+                            <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
+                                Descripción
+                            </button>
+                        </td>
+                        <td>Fecha</td>
+                        <td>Scripts vUGW</td>
+                        <td>Script HSS</td>
+                        <td>IR21</td>
+                        <td>Estado</td>
+                        <td>Actualizar Datos</td>
+                    </tr>
+                </thead>
+                <tbody class="text-center">
+                    {% for item in lanzamientos %}
+                        <tr>
+                            <td>{{ item.pais }}</td>
+                            <td>{{ item.operadora }}</td>
+                            <td>
+                                <span class="collapse" id="collapseExample">{{ item.descripcion }}</span>
+                            </td>
+                            <td>{{ item.fecha }}</td>
+                            <td>
+                                <a href="#" class="badge bg-secondary text-white p-2 links">vUGW</a>
+                            </td>
+                            <td>
+                                <a href="#" class="badge bg-secondary text-white p-2 links">MAG</a>&nbsp;
+                                <a href="#" class="badge bg-secondary text-white p-2 links">MUN</a>
+                            </td>
+                            <td>
+                                {% if item.ir21 %}
+                                    <a id="descargar" href="{{ item.ir21.url }}" download><i class="fas fa-download"></i>&nbsp;Descargar</a>
+                                {% else %}
+                                    No hay documento
+                                {% endif %}
+                            </td>
+                            <td>
+                                {% if item.estado %}
+                                    <span class="badge badge-success p-2">CONFIGURADO</span>
+                                {% else %}
+                                    <a href="" class="badge badge-warning p-2">¿ REALIZADO ?</a>
+                                {% endif %}
+                            </td>
+                            <td>
+                                <a href="#">
+                                    <span class="badge bg-azul naranja p-2"><i class="fas fa-edit"></i></span>
+                                </a>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </section>
+        {% else %}
+            <p class="alert alert-primary text-center col-6 mx-auto mt-5">No hay lanzamientos registradas hasta el momento.</p>
+        {% endif %}
     </section>
-</section>
-    
+    <section class="mt-3">
+        {% include 'paginator.html' %}
+    </section>
 {% endblock %}

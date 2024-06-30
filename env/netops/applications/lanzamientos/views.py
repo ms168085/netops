@@ -31,6 +31,8 @@ class CrearLanzamiento(LoginRequiredMixin, CreateView):
 
 class ListadoLanzamientos(LoginRequiredMixin, ListView):
     template_name = "lanzamientos/listado.html"
+    paginate_by = 10
+    context_object_name = 'lanzamientos'
 
     def get_queryset(self):
         lanzamientos = Lanzamiento.objects.all().order_by('estado', 'fecha')
