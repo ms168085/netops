@@ -1,0 +1,44 @@
+{% extends 'base.html'%}
+
+{% load static %}
+
+{% block css%}  
+{% endblock %}
+
+{% block content %}
+<section class="row">
+    <section class="card-body">
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item">
+                    <a href="{% url 'users_app:index' %}" class="azul">Inicio</a>
+                </li>
+                <li class="breadcrumb-item azul" aria-current="page">
+                    Actualizar estado
+                </li>
+            </ol>
+        </nav>
+    </section>
+</section>
+
+<section class="container-fluid shadow rounded p-3 mx-auto">
+    <h3 class="azul display-5 text-center mt-3">
+        <span class="text-danger">Operadora: <span class="font-weight-bold">{{object.operadora}}, {{ object.pais }} </span></span>
+    </h3>
+    
+    <form method="POST" class="mt-3 w-50 mx-auto mb-5 shadow rounded p-3">
+        {% csrf_token %}
+        <p class="alert alert-primary text-center mt-3">
+            <i class="fas fa-info-circle"></i>&nbsp;&nbsp;
+            Al presionar el botón el estado del lanzamiento pasará a <span class="font-weight-bold">CONFIGURADO</span>
+        </p>
+        <!-- Campo oculto para atributo "estado"-->
+        <input type="hidden" name="estado" value="on">
+
+        <section class="mb-3">
+            <input type="submit" class="btn btn-primary w-50" value="ACTUALIZAR ESTADO">
+        </section>
+    </form>
+</section>
+
+{% endblock %}

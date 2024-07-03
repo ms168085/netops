@@ -37,3 +37,24 @@ class ListadoLanzamientos(LoginRequiredMixin, ListView):
     def get_queryset(self):
         lanzamientos = Lanzamiento.objects.all().order_by('estado', 'fecha')
         return lanzamientos
+
+class LanzamientoUpdateEstado(LoginRequiredMixin, UpdateView):
+    template_name = 'lanzamientos/actualizar_estado.html'
+    model = Lanzamiento
+    login_url = 'users_app:user_login'
+    fields = ['estado',]
+    success_url = reverse_lazy('lanzamientos_app:listado_lanzamientos')
+
+    def post(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        self.object.estado = True
+        self.object.save()
+        return super().post(request, *args, **kwargs)
+    
+    def form_valid(self, form):
+        return super(LanzamientoUpdateEstado, self).form_valid(form)
+    
+    def form_invalid(self, form):
+        response = super().form_invalid(form)
+        messages.error(self.request, "Ocurrió un error al actualizar el estado, reintentar...")
+        return response

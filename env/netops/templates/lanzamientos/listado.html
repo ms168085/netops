@@ -83,7 +83,7 @@
                                 {% if item.estado %}
                                     <span class="badge badge-success p-2">CONFIGURADO</span>
                                 {% else %}
-                                    <a href="" class="badge badge-warning p-2">¿ REALIZADO ?</a>
+                                    <a href="{% url 'lanzamientos_app:actualizar_estado' item.id %}" class="badge badge-warning p-2">¿ REALIZADO ?</a>
                                 {% endif %}
                             </td>
                             <td>
