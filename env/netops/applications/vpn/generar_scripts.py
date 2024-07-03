@@ -70,21 +70,98 @@ def generar_script_hss(vpn, hss_type):
 
 # Función para generar script para los UGW
 def generar_script_ugw(vpn, ugw_type):
-    header = f'***** COMANDOS PARA UGW {ugw_type} *****\n\n'
-    primer_parte = (
+    tipo = "FULL MESH" if vpn.conectividad_entre_moviles == "1" else "HUB & SPOKE"
+    header = f'***** COMANDOS PARA UGW {ugw_type} - {tipo} *****\n\n'
+    primera_parte = (
         'system-view\n'
         f'ip vpn-instance {vpn.vpn_instance}\n'
         f'description TRAMITE {vpn.tinco_movil}\n'
         f'route-distinguisher {vpn.route_distinguisher}:1\n\n'
-        f'interface Eth-Trunks5.{vpn.route_distinguisher}\n'
-        f'vlan-type dot1q {vpn.route_distinguisher}\n'
-        f'description VPRNID 2 {vpn.tinco_movil[1:]}\n' # Elimino el primer caracter habitualmente P
-        f'ip binding vpn-instance {vpn.vpn_instance}\n'
-        f'ip address {vpn.primer_ip_mag if ugw_type == "MAG" else vpn.primer_ip_mun} 30\n'
     )
 
-    contenido = (
-        header + 
-        primer_parte
+    if vpn.con_sitio_central:
+        armado_bgp = (
+            f'interface Eth-Trunks5.{vpn.route_distinguisher}\n'
+            f'vlan-type dot1q {vpn.route_distinguisher}\n'
+            f'description VPRNID 2 {vpn.tinco_movil[1:]}\n' # Elimino el primer caracter habitualmente P
+            f'ip binding vpn-instance {vpn.vpn_instance}\n'
+            f'ip address {vpn.primer_ip_mag if ugw_type == "MAG" else vpn.primer_ip_mun} 30\n\n'
+            f'bgp 65422\n'
+            f'ipv4-family vpn-instance {vpn.vpn_instance}\n'
+            f'as-number 65500\n'
+            f'import-route wlr\n'
+            f'peer {vpn.peer_mag if ugw_type == "MAG" else vpn.peer_mun} as-number 7167\n'
+            f'peer {vpn.peer_mag if ugw_type == "MAG" else vpn.peer_mun} timer keepalive 10 hold 30\n'
+            'quit\n'
+            'quit\n\n'
+        )
+
+    tercera_parte = (
+        f'ip pool {vpn.nombre_pool_moviles} local ipv4\n'
+        f'vpn-instance {vpn.vpn_instance}\n'
+        f'section 0 {vpn.primer_ip_mag if ugw_type == "MAG" else vpn.primer_ip_mun} {vpn.primer_ip_mag if ugw_type == "MAG" else vpn.primer_ip_mun} static\n'
+        'quit\n\n'
     )
+
+    if vpn.con_sitio_central:
+        contenido = (
+            header +
+            primera_parte +
+            armado_bgp +
+            tercera_parte
+        )
+    else:
+        contenido = (
+            header +
+            primera_parte +
+            tercera_parte
+        )
+    print(vpn.conectividad_entre_moviles)
+    acl = ''
+    if vpn.conectividad_entre_moviles == "2":
+        acl = f'acl-binding direction down-in acl {vpn.nombre_acl}'
+
+    cuarta_parte = (
+        f'apn {vpn.apn}\n'
+        f'vpn-instance {vpn.vpn_instance}\n'
+        f'content-awareness disable\n'
+        f'service-report switch flow global\n'
+        f'access-mode transparent-non-authentication\n'
+        f'framed-route-mode disable\n'
+        f'address-allocate ipv4 local radius-prior disable ipv6 local radius-prior disable\n'
+        f'address-support ipv4 enable ipv6 enable preference ipv4\n'
+        f'address-allocate-preference enable\n'
+        f'ppp-access authentication disable\n'
+        f'ppp-access address-allocate local radius-prior disable\n'
+        f'virtual-apn disable\n'
+        f'address-inherit enable\n'
+        f'apn-restriction disable\n'
+        f'session-timeout enable length 1440\n'
+        f'idle-timeout enable length 120 updatemsg disable\n'
+        f'static-ip hlr-hss-provided enable conflict deactive route enable all\n'
+        f'select-mode-check disable\n'
+        f'lock disable\n'
+        f'l2tp disable\n'
+        f'{"dns ipv4 primary-ip" if vpn.dns_1 is not None else ""} {vpn.dns_1 if vpn.dns_1 is not None else ""}'
+        f'{" secondary-ip" if vpn.dns_2 is not None else ""} {vpn.dns_2 if vpn.dns_1 is not None else ""}\n'
+        f'dns priority ipv4 first radius second dhcp third local\n'
+        f'ims-switch inherit\n'
+        f'address-pool {vpn.nombre_pool_moviles}\n'
+        f'volume.statistic-mode layer-all\n'
+        f'aaa-apn-secondauth disable\n'
+        f'apn-type-select perf service cg service aaaacct service aaaauth service ocs service pcrf service\n'
+        f'header-enrichment service\n'
+        f'plmn serving-node-mapping enable\n'
+        f'rat sgsn-sgw-mapping enable\n'
+        f'multiple-service-mode radius\n'
+        f'radius-disconnect enable\n'
+        f'offline-charge-binding ggsn cc_0x0800_oct pgw cc_0x0800_oct sgw cc_0x0800_oct\n'
+        f'radius acctctrl accounting-update enable\n'
+        f'service-statistic-switch enable\n'
+        f'{acl if vpn.conectividad_entre_moviles == "2" else ""}\n'
+        f'quit\n'
+        f'quit\n'
+        f'\n'
+    )    
+    contenido += cuarta_parte
     return contenido
