@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from .models import Lanzamiento
-from .forms import CrearLanzamientoForm
+from .forms import CrearLanzamientoForm, LanzamientoUpdateForm
 from django.views.generic import CreateView, ListView, UpdateView
 from django.urls import reverse_lazy
 from django.contrib import messages
@@ -57,4 +57,23 @@ class LanzamientoUpdateEstado(LoginRequiredMixin, UpdateView):
     def form_invalid(self, form):
         response = super().form_invalid(form)
         messages.error(self.request, "Ocurrió un error al actualizar el estado, reintentar...")
+        return response
+
+class ActualizarLanzamiento(LoginRequiredMixin, UpdateView):
+    model = Lanzamiento
+    form_class = LanzamientoUpdateForm
+    template_name = "lanzamientos/actualizar.html"
+    success_url = reverse_lazy('lanzamientos_app:listado_lanzamientos')
+    login_url = 'users_app:user_login'
+
+    def form_valid(self, form):
+        lanzamiento = form.save(commit=False)
+        lanzamiento.usuario = self.request.user
+        lanzamiento.save()
+        messages.success(self.request, 'Lanzamiento actualizado con éxito.')
+        return super().form_valid(form)
+
+    def form_invalid(self, form):
+        response = super().form_invalid(form)
+        messages.error(self.request, "Ocurrió un error al actualizar el lanzamiento, reintentar...")
         return response
