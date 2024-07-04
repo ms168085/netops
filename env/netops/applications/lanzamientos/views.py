@@ -1,10 +1,12 @@
-from django.shortcuts import render
+from django.shortcuts import render, HttpResponse, get_object_or_404
 from .models import Lanzamiento
 from .forms import CrearLanzamientoForm, LanzamientoUpdateForm
 from django.views.generic import CreateView, ListView, UpdateView
 from django.urls import reverse_lazy
 from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.decorators import login_required
+from .generar_scripts import generar_script_hss
 
 
 class CrearLanzamiento(LoginRequiredMixin, CreateView):
@@ -77,3 +79,27 @@ class ActualizarLanzamiento(LoginRequiredMixin, UpdateView):
         response = super().form_invalid(form)
         messages.error(self.request, "Ocurrió un error al actualizar el lanzamiento, reintentar...")
         return response
+
+###########
+# SCRIPTS #
+###########
+
+@login_required
+def hss_mag(request, id):
+    lanzamiento = get_object_or_404(Lanzamiento, id=id)    
+    # Contenido del script
+    contenido = generar_script_hss(lanzamiento, "MAG")    
+    # Respuesta HTTP con el script en formato .txt
+    response = HttpResponse(contenido, content_type='text/plain')
+    response['Content-Disposition'] = 'attachment; filename="script_HSS_MAG.txt"'    
+    return response
+
+@login_required
+def hss_mun(request, id):
+    lanzamiento = get_object_or_404(Lanzamiento, id=id)
+    # Contenido del script
+    contenido = generar_script_hss(lanzamiento, "MUN")    
+    # Respuesta HTTP con el script en formato .txt
+    response = HttpResponse(contenido, content_type='text/plain')
+    response['Content-Disposition'] = 'attachment; filename="script_HSS_MUN.txt"'    
+    return response
