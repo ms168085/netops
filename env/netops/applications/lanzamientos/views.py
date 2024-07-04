@@ -6,7 +6,7 @@ from django.urls import reverse_lazy
 from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.decorators import login_required
-from .generar_scripts import generar_script_hss
+from .generar_scripts import generar_script_hss, generar_script_ugw
 
 
 class CrearLanzamiento(LoginRequiredMixin, CreateView):
@@ -102,4 +102,14 @@ def hss_mun(request, id):
     # Respuesta HTTP con el script en formato .txt
     response = HttpResponse(contenido, content_type='text/plain')
     response['Content-Disposition'] = 'attachment; filename="script_HSS_MUN.txt"'    
+    return response
+
+@login_required
+def ugw(request, id):
+    lanzamiento = get_object_or_404(Lanzamiento, id=id)
+    # Contenido del script
+    contenido = generar_script_ugw(lanzamiento)    
+    # Respuesta HTTP con el script en formato .txt
+    response = HttpResponse(contenido, content_type='text/plain')
+    response['Content-Disposition'] = 'attachment; filename="script_UGW.txt"'    
     return response

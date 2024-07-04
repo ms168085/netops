@@ -11,4 +11,5 @@ urlpatterns = [
     # SCRIPTS
     path('lanzamiento_hss_mag/<int:id>/', views.hss_mag, name='lanzamiento_hss_mag'), # HSS MAG
     path('lanzamiento_hss_mun/<int:id>/', views.hss_mun, name='lanzamiento_hss_mun'), # HSS MUN
+    path('lanzamiento_ugw/<int:id>/', views.ugw, name='lanzamiento_ugw'), # UGW
 ]
