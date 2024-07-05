@@ -38,6 +38,7 @@ LOCAL_APPS = (
     'applications.testing',
     'applications.vpn',
     'applications.lanzamientos',
+    'applications.tareas',
 )
 
 # Aplicaciones de Terceros

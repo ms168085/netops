@@ -25,6 +25,7 @@ urlpatterns = [
     re_path('', include('applications.testing.urls')),
     re_path('', include('applications.vpn.urls')),
     re_path('', include('applications.lanzamientos.urls')),
+    re_path('', include('applications.tareas.urls')),
 ]
 
 if settings.DEBUG:
