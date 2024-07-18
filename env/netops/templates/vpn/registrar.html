@@ -42,25 +42,29 @@
         <form action="" method="post" class="mx-auto azul p-3 rounded-lg">
             {% csrf_token %}
             <section class="mt-3 mb-3 form-row">
-                <section class="from-group col-4">
+                <section class="from-group col-6">
                     <label for="id_vpn_instance" class="form-label">VPN instance:</label>
                     <input type="text" name="vpn_instance" class="form-control" maxlength="20" id="id_vpn_instance" required>
                 </section>
 
-                <section class="from-group col-4">
+                <section class="from-group col-6">
                     <label for="id_tinco_movil" class="form-label">Nro. de trámite Tinco móvil:</label>
                     <input type="text" class="form-control" name="tinco_movil" maxlength="10" id="id_tinco_movil" placeholder="Por ej. P12345">
-                </section>
-                
-                <section class="from-group col-4">
-                    <label for="id_route_distinguisher" class="form-label">Route distinguisher:</label>
-                    <input type="text" name="route_distinguisher" maxlength="8" class="form-control" id="id_route_distinguisher" placeholder="Por ej. 1234">
                 </section>
             </section>            
 
             <section class="mb-3">
                 <label class="form-label" for="id_con_sitio_central">¿VPN con sitio central?</label>
                 <input type="checkbox" class="form-check" name="con_sitio_central" id="id_con_sitio_central">
+            </section>
+
+            <!-- Conectividad de móviles: FullMesh ó Hub&Spoke-->
+            <section id="conectividad_moviles" class="mb-3 w-50">
+                <label for="id_conectividad_entre_moviles" class="form-label">Conectividad entre móviles:</label>
+                <select name="conectividad_entre_moviles" id="id_conectividad_entre_moviles" class="form-control">                    
+                    <option value="1" selected>Full mesh</option>
+                    <option value="2">Hub &amp; Spoke</option>
+                </select>
             </section>
 
             <section id="con_sitio_central" class="mb-3">
@@ -72,6 +76,11 @@
                         <section class="from-group col-6">
                             <label for="id_vprn_id" class="form-label">VPRN Id:</label>
                             <input type="text" name="vprn_id" class="form-control" maxlength="8" id="id_vprn_id" placeholder="Por ej. 12345">
+                        </section>
+
+                        <section class="from-group col-6">
+                            <label for="id_route_distinguisher" class="form-label">Route distinguisher:</label>
+                            <input type="text" name="route_distinguisher" maxlength="8" class="form-control" id="id_route_distinguisher" placeholder="Por ej. 1234">
                         </section>
                     </section>
 
@@ -99,14 +108,7 @@
                 </section>            
             </section>
 
-            <!-- Conectividad de móviles: FullMesh ó Hub&Spoke-->
-            <section id="conectividad_moviles" class="mb-3 w-50">
-                <label for="id_conectividad_entre_moviles" class="form-label">Conectividad entre móviles:</label>
-                <select name="conectividad_entre_moviles" id="id_conectividad_entre_moviles" class="form-control">                    
-                    <option value="1" selected>Full mesh</option>
-                    <option value="2">Hub &amp; Spoke</option>
-                </select>
-            </section>
+            
 
             <section class="bordered-section position-relative mb-3 rounded" id="armado_acl">
                 <h2 class="section-title position-absolute azul">ARMADO DE ACL</h2>
@@ -186,7 +188,7 @@
                     <section class="mb-3 form-row">
                         <section class="from-group col-6">
                             <label for="id_apn" class="form-label">APN:</label>
-                            <input type="text" name="apn" maxlength="15" class="form-control" id="id_apn" placeholder="Por ej. empresa.vpnantel">                            
+                            <input type="text" name="apn" class="form-control" id="id_apn" placeholder="Por ej. empresa.vpnantel">                            
                         </section>
                         <section class="from-group col-4 ml-3">
                             <label for="id_roaming" class="form-label">¿ Roaming ?</label>
@@ -282,8 +284,10 @@ function inicio(){
 function evento_check(e){
     if (check_sitio_central.checked) {
         $("#con_sitio_central").show();
+        select_conectividad.value = "2";
     } else {
-        $("#con_sitio_central").hide();        
+        $("#con_sitio_central").hide();
+        select_conectividad.value = "1";        
     }
 }
 
