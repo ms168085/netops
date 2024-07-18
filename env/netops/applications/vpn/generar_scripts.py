@@ -99,7 +99,7 @@ def generar_script_ugw(vpn, ugw_type):
     tercera_parte = (
         f'ip pool {vpn.nombre_pool_moviles} local ipv4\n'
         f'vpn-instance {vpn.vpn_instance}\n'
-        f'section 0 {vpn.primer_ip_mag if ugw_type == "MAG" else vpn.primer_ip_mun} {vpn.primer_ip_mag if ugw_type == "MAG" else vpn.primer_ip_mun} static\n'
+        f'section 0 {vpn.primer_ip_mag if ugw_type == "MAG" else vpn.primer_ip_mun} {vpn.ultima_ip_mag if ugw_type == "MAG" else vpn.ultima_ip_mun} static\n'
         'quit\n\n'
     )
 
@@ -113,7 +113,6 @@ def generar_script_ugw(vpn, ugw_type):
     else:
         contenido = (
             header +
-            primera_parte +
             tercera_parte
         )
     print(vpn.conectividad_entre_moviles)
@@ -141,16 +140,15 @@ def generar_script_ugw(vpn, ugw_type):
         f'static-ip hlr-hss-provided enable conflict deactive route enable all\n'
         f'select-mode-check disable\n'
         f'lock disable\n'
-        f'l2tp disable\n'
+        f'l2tp disable'
         f'{"dns ipv4 primary-ip" if vpn.dns_1 is not None else ""} {vpn.dns_1 if vpn.dns_1 is not None else ""}'
         f'{" secondary-ip" if vpn.dns_2 is not None else ""} {vpn.dns_2 if vpn.dns_1 is not None else ""}\n'
         f'dns priority ipv4 first radius second dhcp third local\n'
         f'ims-switch inherit\n'
         f'address-pool {vpn.nombre_pool_moviles}\n'
-        f'volume.statistic-mode layer-all\n'
+        f'volume-statistic-mode layer-all\n'
         f'aaa-apn-secondauth disable\n'
-        f'apn-type-select perf service cg service aaaacct service aaaauth service ocs service pcrf service\n'
-        f'header-enrichment service\n'
+        f'apn-type-select perf service cg service aaaacct service aaaauth service ocs service pcrf service header-enrichment service\n'
         f'plmn serving-node-mapping enable\n'
         f'rat sgsn-sgw-mapping enable\n'
         f'multiple-service-mode radius\n'
@@ -158,7 +156,7 @@ def generar_script_ugw(vpn, ugw_type):
         f'offline-charge-binding ggsn cc_0x0800_oct pgw cc_0x0800_oct sgw cc_0x0800_oct\n'
         f'radius acctctrl accounting-update enable\n'
         f'service-statistic-switch enable\n'
-        f'{acl if vpn.conectividad_entre_moviles == "2" else ""}\n'
+        f'{acl if vpn.conectividad_entre_moviles == "2" else ""}'
         f'quit\n'
         f'quit\n'
         f'\n'
