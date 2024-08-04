@@ -62,13 +62,13 @@
 
                 <section class="from-group col-4">
                     <label for="id_fecha" class="form-label">Fecha del lanzamiento:</label>
-                    <input type="date" class="form-control" name="fecha" id="id_fecha">
+                    <input type="date" class="form-control" name="fecha" id="id_fecha" required>
                 </section>
             </section>
 
             <section class="mb-3">
                 <label class="form-label" for="id_descripcion">Descripción:</label>
-                <textarea class="form-control" name="descripcion" rows="7" id="id_descripcion"></textarea>
+                <textarea class="form-control" name="descripcion" rows="7" id="id_descripcion" required></textarea>
             </section>
 
             <section class="mb-5">          
@@ -82,17 +82,17 @@
         
                         <section class="from-group col-3">
                             <label for="id_mnc" class="form-label">MNC:</label>
-                            <input type="text" class="form-control" name="mnc" maxlength="3" id="id_mnc">
+                            <input type="text" class="form-control" name="mnc" maxlength="3" id="id_mnc" required>
                         </section>
         
                         <section class="from-group col-3">
                             <label for="id_nc" class="form-label">NC:</label>
-                            <input type="text" class="form-control" name="nc" id="id_nc">
+                            <input type="text" class="form-control" name="nc" id="id_nc" required>
                         </section>
 
                         <section class="from-group col-3">
                             <label for="id_cc" class="form-label">CC:</label>
-                            <input type="text" class="form-control" name="cc" id="id_cc">
+                            <input type="text" class="form-control" name="cc" id="id_cc" required>
                         </section>
                     </section>                                       
                 </section>            
@@ -110,7 +110,7 @@
 
                     <section class="from-group col-6">
                         <label class="form-label" for="id_dmrt">DMRT:</label>
-                        <input type="text" name="dmrt" id="id_dmrt" class="form-control" maxlength="4" required>
+                        <input type="text" name="dmrt" id="id_dmrt" class="form-control" maxlength="4">
                         <small class="text-danger">&nbsp;Actualizar al momento de ejecutar el lanzamiento</small>
                     </section>
                 </section>

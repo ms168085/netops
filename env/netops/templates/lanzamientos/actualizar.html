@@ -51,13 +51,13 @@
 
             <section class="from-group col-4">
                 <label for="id_fecha" class="form-label">Fecha del lanzamiento:</label>
-                <input type="date" class="form-control" name="fecha" id="id_fecha" value="{{object.fecha|date:'Y-m-d'}}">
+                <input type="date" class="form-control" name="fecha" id="id_fecha" value="{{object.fecha|date:'Y-m-d'}}" required>
             </section>
         </section>
 
         <section class="mb-3">
             <label class="form-label" for="id_descripcion">Descripción:</label>
-            <textarea class="form-control" name="descripcion" rows="7" id="id_descripcion">{{object.descripcion}}</textarea>
+            <textarea class="form-control" name="descripcion" rows="7" id="id_descripcion" required>{{object.descripcion}}</textarea>
         </section>
 
         <section class="mt-3 mb-3 form-row">
@@ -68,17 +68,17 @@
 
             <section class="from-group col-3">
                 <label for="id_mnc" class="form-label">MNC:</label>
-                <input type="text" class="form-control" name="mnc" maxlength="3" id="id_mnc" value="{{object.mnc}}">
+                <input type="text" class="form-control" name="mnc" maxlength="3" id="id_mnc" value="{{object.mnc}}" required>
             </section>
 
             <section class="from-group col-3">
                 <label for="id_nc" class="form-label">NC:</label>
-                <input type="text" class="form-control" name="nc" id="id_nc" value="{{object.nc}}">
+                <input type="text" class="form-control" name="nc" id="id_nc" value="{{object.nc}}" required>
             </section>
 
             <section class="from-group col-3">
                 <label for="id_cc" class="form-label">CC:</label>
-                <input type="text" class="form-control" name="cc" id="id_cc" value="{{object.cc}}">
+                <input type="text" class="form-control" name="cc" id="id_cc" value="{{object.cc}}" required>
             </section>
         </section>
 
