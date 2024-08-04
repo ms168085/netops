@@ -21,7 +21,49 @@
     </section>
 </section>
 
-<section class="container-fluid shadow rounded px-3">
+<section class="container-fluid shadow rounded px-3 pt-3 pb-3">
+    <h1 class="text-center azul">Tareas Registradas</h1>
+    {% if tareas %}    
+    <section class="mt-3">
+        <table class="table table-striped">
+            <thead class="text-center bg-azul naranja">
+                <tr>
+                    <td>Funcionario</td>
+                    <td>Fecha</td>
+                    <td>Tipo de tarea</td>
+                    <td>Descripción</td>
+                </tr>
+            </thead>
+            <tbody class="text-center">
+                {% for t in tareas %}
+                    <tr>
+                        <td>{{ t.usuario.nombre }} {{ t.usuario.apellido }}</td>
+                        <td>{{ t.fecha }}</td>
+                        <td>
+                            {% if t.tipo == "0" %}
+                                Tarea Operativa
+                            {% elif t.tipo == "1"%}
+                                Tarea Programada
+                            {% else %}
+                                Disturbio / Falla
+                            {% endif %}
+                        </td>
+                        <td>
+                            {{ t.descripcion }}
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </section>
+    {% else %}
+        <p class="alert alert-primary text-center col-6 mx-auto mt-5 mb-5">No hay tareas registradas hasta el momento.</p>
+    {% endif %}
 </section>
-    
+<section class="mt-3">
+    {% include 'paginator.html' %}
+</section>
 {% endblock %}
+
+
+

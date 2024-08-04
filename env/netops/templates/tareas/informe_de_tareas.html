@@ -1,0 +1,67 @@
+{% extends 'base.html'%}
+
+{% load static %}
+
+{% block content %}
+<section class="row">
+    <section class="card-body">
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item">
+                    <a href="{% url 'users_app:index' %}" class="azul">Inicio</a>
+                </li>
+                <li class="breadcrumb-item azul" aria-current="page">
+                    Informe de Tareas
+                </li>
+            </ol>
+        </nav>
+    </section>
+</section>
+
+<section class="container-fluid shadow rounded px-3 pt-3 pb-3">
+    <h1 class="text-center azul">Descargar informe</h1>
+
+    <form class="col-10 mx-auto p-3" method="POST" id="formulario" action="{% url 'tareas_app:descargar_informe' %}">
+        {% csrf_token %}
+
+        <section class="mb-5 mt-3 form-row">
+            <section class="from-group col-6">
+                <label for="id_fecha" class="form-label">Fecha desde:</label>
+                <input type="date" name="fecha_desde" id="id_fecha_desde" class="form-control" required>
+            </section>
+
+            <section class="from-group col-6">
+                <label for="id_fecha_hasta" class="form-label">Fecha hasta:</label>
+                <input type="date" name="fecha_hasta" id="id_fecha_hasta" class="form-control" required>
+            </section>
+        </section>
+
+        <section class="mb-3">
+            <input type="submit" class="btn btn-success" value="DESCARGAR INFORME">
+        </section>
+    </form>    
+</section>
+{% endblock %}
+
+{% block js %}
+<script>
+    document.querySelector('#formulario').addEventListener('submit', function(event) {
+        const fechaDesde = document.getElementById('id_fecha_desde').value;
+        const fechaHasta = document.getElementById('id_fecha_hasta').value;
+
+        if (!fechaDesde || !fechaHasta) {
+            alert('Ambas fechas son requeridas.');
+            event.preventDefault();
+            return;
+        }
+
+        if (fechaDesde > fechaHasta) {
+            alert('La fecha "Desde" no puede ser mayor que la fecha "Hasta".');
+            event.preventDefault();
+        }
+    });
+</script>
+{% endblock %}
+
+
+
