@@ -7,14 +7,14 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 
 class ListadoTesting(LoginRequiredMixin, ListView):
     template_name = "testing/listado.html"
-    paginate_by = 20
+    paginate_by = 12
     model = Testing
     context_object_name = 'funcionalidades'
     ordering = ('created')
 
 class ActualizarTesting(LoginRequiredMixin, UpdateView):
     template_name = "testing/actualizar.html"
-    model = Testing
+    model = Testing    
     fields = [
         "comentario",
     ]

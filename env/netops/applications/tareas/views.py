@@ -5,8 +5,8 @@ from django.urls import reverse_lazy
 from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic import CreateView, ListView, TemplateView
-
-# Create your views here.
+import pandas as pd
+import io
 
 class TareaCreateView(LoginRequiredMixin, CreateView):
     template_name = 'tareas/registrar_tarea.html'
@@ -51,17 +51,22 @@ def descargar_informe(request):
         fecha_hasta = request.POST.get('fecha_hasta')
         tareas = Tarea.objects.filter(fecha__range=[fecha_desde, fecha_hasta])
 
-        # Lógica para generar el informe
-        # Por ejemplo, podrías generar un archivo CSV, PDF, etc.
-        # Aquí simplemente devolvemos una respuesta de texto plano como ejemplo
-        informe = "Informe de Tareas\n"
-        for tarea in tareas:
-            informe += f"{tarea.fecha} - {tarea.descripcion}\n"
+        # Convertir los datos en un DataFrame
+        data = {
+            'Fecha': [tarea.fecha for tarea in tareas],
+            'Tipo de tarea': [tarea.get_tipo_display() for tarea in tareas],
+            'Descripción': [tarea.descripcion for tarea in tareas],            
+            'Funcionario': [f"{tarea.usuario.nombre} {tarea.usuario.apellido}" for tarea in tareas],
+        }
+        df = pd.DataFrame(data)
 
-        # Crear una respuesta HTTP con el contenido del informe
-        response = HttpResponse(informe, content_type='text/plain')
-        response['Content-Disposition'] = 'attachment; filename="informe_tareas.txt"'
+        # Crear archivo Excel
+        output = io.BytesIO()
+        with pd.ExcelWriter(output, engine='xlsxwriter') as writer:
+            df.to_excel(writer, index=False, sheet_name='Informe de Tareas')
+
+        response = HttpResponse(output.getvalue(), content_type='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
+        response['Content-Disposition'] = 'attachment; filename="informe_tareas.xlsx"'
         return response
+    return render(request, 'tareas/informe_de_tareas.html')
 
-    # Si el metodo no es POST
-    return render(request, 'tareas_app/informe_de_tareas.html')
