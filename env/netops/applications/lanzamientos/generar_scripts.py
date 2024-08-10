@@ -3,13 +3,21 @@
 # item = objeto lanzamiento
 def generar_script_hss(item, nodo):
     hss = "MAG" if nodo == "MAG" else "MUN"
+
+    # Verificar cantidad de digitos MNC
+    dato_mnc = item.mnc
+    if len(dato_mnc) == 1:
+        dato_mnc = f'00{dato_mnc}'
+    elif len(dato_mnc) == 2:
+        dato_mnc = f'0{dato_mnc}'
+    
     carrier = ''
     if item.carrier == "1":
         # Syniverse
-        carrier = f'DIA-CFG-Drt=epc.mnc{item.mnc}.mcc{item.mcc}.3gppnetwork.org:HSS_ESM:FALSE\n'
+        carrier = f'DIA-CFG-Drt=epc.mnc{dato_mnc}.mcc{item.mcc}.3gppnetwork.org:HSS_ESM:FALSE\n'
     else:
         # Comfone
-        carrier = f'DIA-CFG-Drt=epc.mnc{item.mnc}.mcc{item.mcc}.3gppnetwork.org.key2roam.comfone.com:HSS_ESM:FALSE\n'
+        carrier = f'DIA-CFG-Drt=epc.mnc{dato_mnc}.mcc{item.mcc}.3gppnetwork.org.key2roam.comfone.com:HSS_ESM:FALSE\n'
     contenido = (
         f'***** COMANDOS PARA HSS {hss} *****\n\n'
         f'ManagedElement=HSSFE{hss}01\n'
@@ -45,21 +53,28 @@ def generar_script_hss(item, nodo):
     return contenido
 
 def generar_script_ugw(item):
+    # Verificar cantidad de digitos MNC
+    dato_mnc = item.mnc
+    if len(dato_mnc) == 1:
+        dato_mnc = f'00{dato_mnc}'
+    elif len(dato_mnc) == 2:
+        dato_mnc = f'0{dato_mnc}'
+
     real_name = ''
     dmrt = ''
     if item.carrier == "1":
         # Syniverse
-        real_name = f'ADD IMSIHSS:IMSIPRE="{item.mcc}{item.mnc},HSSRLM="epc.mnc{item.mnc}.mcc{item.mcc}.3gppnetwork.org",MNNAME="{item.operadora}_{item.pais}";\n\n'
+        real_name = f'ADD IMSIHSS:IMSIPRE="{item.mcc}{item.mnc},HSSRLM="epc.mnc{dato_mnc}.mcc{item.mcc}.3gppnetwork.org",MNNAME="{item.operadora}_{item.pais}";\n\n'
         dmrt = (
-            f'ADD DMRT:ROUTEIDX={item.dmrt},ISDEFAULT=NO,RSELMODE=SELMODE_ROUND_ROBIN,REALNAME="epc.mnc{item.mnc}.mcc{item.mcc}.3gppnetwork.org",PEERIDX=6,ROUTENAM="{item.operadora}_{item.pais},DESC="DRA CIA";\n'
-            f'ADD DMRT:ROUTEIDX={item.dmrt},ISDEFAULT=NO,RSELMODE=SELMODE_ROUND_ROBIN,REALNAME="epc.mnc{item.mnc}.mcc{item.mcc}.3gppnetwork.org",PEERIDX=7,ROUTENAM="{item.operadora}_{item.pais},DESC="DRA MUN";\n\n'
+            f'ADD DMRT:ROUTEIDX={item.dmrt},ISDEFAULT=NO,RSELMODE=SELMODE_ROUND_ROBIN,REALNAME="epc.mnc{dato_mnc}.mcc{item.mcc}.3gppnetwork.org",PEERIDX=6,ROUTENAM="{item.operadora}_{item.pais},DESC="DRA CIA";\n'
+            f'ADD DMRT:ROUTEIDX={item.dmrt},ISDEFAULT=NO,RSELMODE=SELMODE_ROUND_ROBIN,REALNAME="epc.mnc{dato_mnc}.mcc{item.mcc}.3gppnetwork.org",PEERIDX=7,ROUTENAM="{item.operadora}_{item.pais},DESC="DRA MUN";\n\n'
         )
     else:
         # Comfone
-        real_name = f'ADD IMSIHSS:IMSIPRE="{item.mcc}{item.mnc},HSSRLM="epc.mnc{item.mnc}.mcc{item.mcc}.3gppnetwork.org.key2roam.comfone.com",MNNAME="{item.operadora}_{item.pais}";\n\n'
+        real_name = f'ADD IMSIHSS:IMSIPRE="{item.mcc}{item.mnc},HSSRLM="epc.mnc{dato_mnc}.mcc{item.mcc}.3gppnetwork.org.key2roam.comfone.com",MNNAME="{item.operadora}_{item.pais}";\n\n'
         dmrt = (
-            f'ADD DMRT:ROUTEIDX={item.dmrt},ISDEFAULT=NO,RSELMODE=SELMODE_ROUND_ROBIN,REALNAME="epc.mnc{item.mnc}.mcc{item.mcc}.3gppnetwork.org.key2roam.comfone.com",PEERIDX=6,ROUTENAM="{item.operadora}_{item.pais}",DESC="DRA CIA";\n'
-            f'ADD DMRT:ROUTEIDX={item.dmrt},ISDEFAULT=NO,RSELMODE=SELMODE_ROUND_ROBIN,REALNAME="epc.mnc{item.mnc}.mcc{item.mcc}.3gppnetwork.org.key2roam.comfone.com",PEERIDX=7,ROUTENAM="{item.operadora}_{item.pais}",DESC="DRA MUN";\n\n'
+            f'ADD DMRT:ROUTEIDX={item.dmrt},ISDEFAULT=NO,RSELMODE=SELMODE_ROUND_ROBIN,REALNAME="epc.mnc{dato_mnc}.mcc{item.mcc}.3gppnetwork.org.key2roam.comfone.com",PEERIDX=6,ROUTENAM="{item.operadora}_{item.pais}",DESC="DRA CIA";\n'
+            f'ADD DMRT:ROUTEIDX={item.dmrt},ISDEFAULT=NO,RSELMODE=SELMODE_ROUND_ROBIN,REALNAME="epc.mnc{dato_mnc}.mcc{item.mcc}.3gppnetwork.org.key2roam.comfone.com",PEERIDX=7,ROUTENAM="{item.operadora}_{item.pais}",DESC="DRA MUN";\n\n'
         )
 
     contenido = (

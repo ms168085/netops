@@ -66,11 +66,11 @@
                             </td>
                             <td>{{ item.fecha }}</td>
                             <td>
-                                <a href="{% url 'lanzamientos_app:lanzamiento_ugw' item.id %}" class="badge bg-secondary text-white p-2 links">vUGW</a>
+                                <a href="{% url 'lanzamientos_app:lanzamiento_ugw' item.id %}" class="badge bg-secondary text-white p-2 links mt-1">vUGW</a>
                             </td>
                             <td>
-                                <a href="{% url 'lanzamientos_app:lanzamiento_hss_mag' item.id %}" class="badge bg-secondary text-white p-2 links">MAG</a>&nbsp;
-                                <a href="{% url 'lanzamientos_app:lanzamiento_hss_mun' item.id %}" class="badge bg-secondary text-white p-2 links">MUN</a>
+                                <a href="{% url 'lanzamientos_app:lanzamiento_hss_mag' item.id %}" class="badge bg-secondary text-white p-2 links mt-1">MAG</a>&nbsp;
+                                <a href="{% url 'lanzamientos_app:lanzamiento_hss_mun' item.id %}" class="badge bg-secondary text-white p-2 links mt-1">MUN</a>
                             </td>
                             <td>
                                 {% if item.ir21 %}
