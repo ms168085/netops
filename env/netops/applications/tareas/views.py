@@ -37,7 +37,7 @@ class TareasListView(LoginRequiredMixin, ListView):
     context_object_name = 'tareas'
 
     def get_queryset(self):
-        tareas = Tarea.objects.all().order_by('-created')
+        tareas = Tarea.objects.all().order_by('-fecha')
         return tareas
 
 class InformeDeTareas(LoginRequiredMixin, TemplateView):
