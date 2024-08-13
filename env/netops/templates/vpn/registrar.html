@@ -284,9 +284,11 @@ function inicio(){
 function evento_check(e){
     if (check_sitio_central.checked) {
         $("#con_sitio_central").show();
+        $("#armado_acl").show();
         select_conectividad.value = "2";
     } else {
         $("#con_sitio_central").hide();
+        $("#armado_acl").hide();
         select_conectividad.value = "1";        
     }
 }
@@ -297,8 +299,10 @@ function cambio_el_select(e){
     //Hub & Spoke = 2
     if (selectedValue == "1"){
         $("#armado_acl").hide();
+        $("#con_sitio_central").hide();
     }else if(selectedValue == "2"){
         $("#armado_acl").show();
+        $("#con_sitio_central").show();
     }
 }
 
