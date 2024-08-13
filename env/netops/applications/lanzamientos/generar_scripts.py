@@ -52,7 +52,7 @@ def generar_script_hss(item, nodo):
     )
     return contenido
 
-def generar_script_ugw(item):
+def generar_script_usn(item):
     # Verificar cantidad de digitos MNC
     dato_mnc = item.mnc
     if len(dato_mnc) == 1:
@@ -78,7 +78,7 @@ def generar_script_ugw(item):
         )
 
     contenido = (
-        f'## CONFIGURACIONES PARA LOS vUGW ##\n\n'
+        f'## CONFIGURACIONES PARA LOS vUSN ##\n\n'
         f'ADD CONNECTPLMN:MCC="{item.mcc},MNC="{item.mnc},CC="{item.cc},SM=YES,SMS=YES,SMSCR=NO,COUNTRYORAREANAME="{item.operadora}_{item.pais}";\n\n'
         f'ADD IMSIGT:IMSIPRE="{item.mcc}{item.mnc}",GT="{item.cc}{item.nc}",MNNAME="{item.operadora}_{item.pais}"\n\n'
         f'{real_name}\n'

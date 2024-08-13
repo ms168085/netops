@@ -115,7 +115,6 @@ def generar_script_ugw(vpn, ugw_type):
             header +
             tercera_parte
         )
-    print(vpn.conectividad_entre_moviles)
     acl = ''
     if vpn.conectividad_entre_moviles == "2":
         acl = f'acl-binding direction down-in acl {vpn.nombre_acl}'
