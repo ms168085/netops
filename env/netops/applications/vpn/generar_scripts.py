@@ -78,15 +78,17 @@ def generar_script_ugw(vpn, ugw_type):
         f'description TRAMITE {vpn.tinco_movil}\n'
         f'route-distinguisher {vpn.route_distinguisher}:1\n\n'
     )
-
+    bgp = 65412
+    if ugw_type == "MUN":
+        bgp = 65422
     if vpn.con_sitio_central:
         armado_bgp = (
             f'interface Eth-Trunks5.{vpn.route_distinguisher}\n'
             f'vlan-type dot1q {vpn.route_distinguisher}\n'
-            f'description VPRNID 2 {vpn.tinco_movil[1:]}\n' # Elimino el primer caracter habitualmente P
+            f'description VPRNID 2{vpn.tinco_movil[1:]}0\n' # Elimino el primer caracter habitualmente P
             f'ip binding vpn-instance {vpn.vpn_instance}\n'
-            f'ip address {vpn.primer_ip_mag if ugw_type == "MAG" else vpn.primer_ip_mun} 30\n\n'
-            f'bgp 65422\n'
+            f'ip address {vpn.ip_mag if ugw_type == "MAG" else vpn.ip_mun} 30\n\n'
+            f'bgp {bgp}\n'
             f'ipv4-family vpn-instance {vpn.vpn_instance}\n'
             f'as-number 65500\n'
             f'import-route wlr\n'
@@ -95,6 +97,16 @@ def generar_script_ugw(vpn, ugw_type):
             'quit\n'
             'quit\n\n'
         )
+
+    armado_acl = (
+        'system-view\n'
+        'service-view\n'
+        f'acl {vpn.vpn_instance} match-order config\n'
+        f'filter {vpn.vpn_instance}pool l34-protocol any ms-ip 0.0.0.0 255.255.255.255 server-ip {vpn.server_ip} {vpn.wildcard}\n'
+        f'acl-node {vpn.acl_node} filter {vpn.vpn_instance}pool gate discard\n'
+        f'acl-node-binding acl {vpn.vpn_instance} acl-node {vpn.acl_node} priority {vpn.prioridad}\n'
+        'quit\n\n'
+    )
 
     tercera_parte = (
         f'ip pool {vpn.nombre_pool_moviles} local ipv4\n'
@@ -108,6 +120,7 @@ def generar_script_ugw(vpn, ugw_type):
             header +
             primera_parte +
             armado_bgp +
+            armado_acl +
             tercera_parte
         )
     else:
@@ -155,7 +168,7 @@ def generar_script_ugw(vpn, ugw_type):
         f'offline-charge-binding ggsn cc_0x0800_oct pgw cc_0x0800_oct sgw cc_0x0800_oct\n'
         f'radius acctctrl accounting-update enable\n'
         f'service-statistic-switch enable\n'
-        f'{acl if vpn.conectividad_entre_moviles == "2" else ""}'
+        f'{acl if vpn.conectividad_entre_moviles == "2" else ""}\n'
         f'quit\n'
         f'quit\n'
         f'\n'
