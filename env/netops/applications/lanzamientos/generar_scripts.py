@@ -64,14 +64,14 @@ def generar_script_usn(item):
     dmrt = ''
     if item.carrier == "1":
         # Syniverse
-        real_name = f'ADD IMSIHSS:IMSIPRE="{item.mcc}{item.mnc},HSSRLM="epc.mnc{dato_mnc}.mcc{item.mcc}.3gppnetwork.org",MNNAME="{item.operadora}_{item.pais}";\n\n'
+        real_name = f'ADD IMSIHSS:IMSIPRE="{item.mcc}{item.mnc}",HSSRLM="epc.mnc{dato_mnc}.mcc{item.mcc}.3gppnetwork.org",MNNAME="{item.operadora}_{item.pais}";\n\n'
         dmrt = (
             f'ADD DMRT:ROUTEIDX={item.dmrt},ISDEFAULT=NO,RSELMODE=SELMODE_ROUND_ROBIN,REALNAME="epc.mnc{dato_mnc}.mcc{item.mcc}.3gppnetwork.org",PEERIDX=6,ROUTENAM="{item.operadora}_{item.pais},DESC="DRA CIA";\n'
             f'ADD DMRT:ROUTEIDX={item.dmrt},ISDEFAULT=NO,RSELMODE=SELMODE_ROUND_ROBIN,REALNAME="epc.mnc{dato_mnc}.mcc{item.mcc}.3gppnetwork.org",PEERIDX=7,ROUTENAM="{item.operadora}_{item.pais},DESC="DRA MUN";\n\n'
         )
     else:
         # Comfone
-        real_name = f'ADD IMSIHSS:IMSIPRE="{item.mcc}{item.mnc},HSSRLM="epc.mnc{dato_mnc}.mcc{item.mcc}.3gppnetwork.org.key2roam.comfone.com",MNNAME="{item.operadora}_{item.pais}";\n\n'
+        real_name = f'ADD IMSIHSS:IMSIPRE="{item.mcc}{item.mnc}",HSSRLM="epc.mnc{dato_mnc}.mcc{item.mcc}.3gppnetwork.org.key2roam.comfone.com",MNNAME="{item.operadora}_{item.pais}";\n\n'
         dmrt = (
             f'ADD DMRT:ROUTEIDX={item.dmrt},ISDEFAULT=NO,RSELMODE=SELMODE_ROUND_ROBIN,REALNAME="epc.mnc{dato_mnc}.mcc{item.mcc}.3gppnetwork.org.key2roam.comfone.com",PEERIDX=6,ROUTENAM="{item.operadora}_{item.pais}",DESC="DRA CIA";\n'
             f'ADD DMRT:ROUTEIDX={item.dmrt},ISDEFAULT=NO,RSELMODE=SELMODE_ROUND_ROBIN,REALNAME="epc.mnc{dato_mnc}.mcc{item.mcc}.3gppnetwork.org.key2roam.comfone.com",PEERIDX=7,ROUTENAM="{item.operadora}_{item.pais}",DESC="DRA MUN";\n\n'
@@ -79,13 +79,13 @@ def generar_script_usn(item):
 
     contenido = (
         f'## CONFIGURACIONES PARA LOS vUSN ##\n\n'
-        f'ADD CONNECTPLMN:MCC="{item.mcc},MNC="{item.mnc},CC="{item.cc},SM=YES,SMS=YES,SMSCR=NO,COUNTRYORAREANAME="{item.operadora}_{item.pais}";\n\n'
-        f'ADD IMSIGT:IMSIPRE="{item.mcc}{item.mnc}",GT="{item.cc}{item.nc}",MNNAME="{item.operadora}_{item.pais}"\n\n'
+        f'ADD CONNECTPLMN:MCC="{item.mcc}",MNC="{item.mnc}",CC="{item.cc}",SM=YES,SMS=YES,SMSCR=NO,COUNTRYORAREANAME="{item.operadora}_{item.pais}";\n\n'
+        f'ADD IMSIGT:IMSIPRE="{item.mcc}{item.mnc}",GT="{item.cc}{item.nc}",MNNAME="{item.operadora}_{item.pais}";\n\n'
         f'{real_name}\n'
         f'{dmrt}\n\n'
         f'##### En caso de ser 5G #####\n'
         f'### Previamente verificar que no existan SIMs de prueba: LST NSACTRLPLCY, en caso de existir, eliminarlas con RMV\n\n'
-        f'ADD NSACTRLPLCY: SUBRANGE=IMSI_PREFIX, IMSIPRE="{item.mcc}{item.mnc}", ISDCNR=YES, ISSECRATRPT=NO, DESC="{item.operadora}_{item.pais}"\n\n'
+        f'ADD NSACTRLPLCY: SUBRANGE=IMSI_PREFIX, IMSIPRE="{item.mcc}{item.mnc}", ISDCNR=YES, ISSECRATRPT=NO, DESC="{item.operadora}_{item.pais}";\n\n'
         f'\n'
     )
     return contenido
