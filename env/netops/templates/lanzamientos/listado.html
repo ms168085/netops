@@ -58,7 +58,7 @@
                 </thead>
                 <tbody class="text-center">
                     {% for item in lanzamientos %}
-                        <tr>
+                        <tr {% if not item.estado %}class='text-danger'{% endif %}>
                             <td>{{ item.pais }}</td>
                             <td>{{ item.operadora }}</td>
                             <td>
